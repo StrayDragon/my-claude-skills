@@ -1,0 +1,3 @@
+[submodule "lib-slint-expert/source"]
+	path = lib-slint-expert/source
+	url = git@github.com:slint-ui/slint.git
