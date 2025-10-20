@@ -2,7 +2,7 @@
 
 name: Slint GUI Expert
 
-description: Comprehensive Slint GUI development expert covering Rust integration, component design, layouts, styling, animations, cross-platform deployment, and performance optimization. Use when working with Slint UI toolkit, building native GUI applications, or when mentioning Slint, GUI development, or Rust user interfaces.
+description: Comprehensive Slint GUI development expert based on official source code. Covers Rust integration, component design, layouts, styling, animations, cross-platform deployment, and performance optimization. Use when working with Slint UI toolkit, building native GUI applications, or when mentioning Slint, GUI development, or Rust user interfaces. Built with official documentation and examples.
 
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
@@ -10,7 +10,25 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 
 # Slint GUI Expert
 
-A comprehensive guide for developing modern GUI applications using Slint with Rust. This skill covers everything from basic component creation to advanced performance optimization and cross-platform deployment.
+A comprehensive guide for developing modern GUI applications using Slint with Rust. This skill is built directly from the official Slint repository and covers everything from basic component creation to advanced performance optimization and cross-platform deployment.
+
+## 🎯 Getting Started with Official Tutorial
+
+The best way to start is by following the official tutorial:
+
+1. **Start Here**: `@source/docs/astro/src/content/docs/tutorial/quickstart.mdx`
+2. **Basic Project**: Use `templates/basic-app/`
+3. **Example Study**: Review `@source/examples/memory/`
+4. **Reference**: Browse `@source/examples/gallery/`
+
+### Quick Start with Template
+
+```bash
+# Use our pre-configured template
+cp -r templates/basic-app/ my-first-slint-app/
+cd my-first-slint-app/
+cargo run
+```
 
 ## Quick Start
 
@@ -845,23 +863,37 @@ fn main() -> Result<(), slint::PlatformError> {
 }
 ```
 
-## Resources and References
+## 📚 Official Resources and Learning Materials
 
-### Official Slint Source Code
-This skill includes the official Slint repository as a git submodule in the `source/` directory. For the most up-to-date documentation and examples, refer to:
+### 🎯 Primary Learning Path (Recommended)
+1. **Official Tutorial**: `@source/docs/astro/src/content/docs/tutorial/` - Complete memory game tutorial
+2. **Working Examples**: `@source/examples/memory/` - Tutorial implementation
+3. **Component Reference**: `@source/examples/gallery/` - All UI components
+4. **Language Guide**: `@source/docs/astro/src/content/docs/guide/language/` - Complete syntax reference
 
-- **Official Documentation**: `@source/docs/` - Comprehensive guides and tutorials
-- **Language Reference**: `@source/docs/language/` - Complete Slint language specification
-- **API Documentation**: `@source/api/rs/slint/` - Rust API reference
-- **Official Examples**: `@source/examples/` - Extensive collection of working examples
-- **UI Libraries**: `@source/ui-libraries/` - Official component libraries (Material, Fluent)
-- **Cookbooks**: `@source/docs/cookbook/` - Real-world recipes and patterns
+### 📖 Official Documentation
+This skill includes the complete official Slint repository as a git submodule in the `source/` directory:
 
-### Skill Resources
-- [docs/](docs/) - Navigation guide for official documentation
-- [examples/](examples/) - Guide to official examples and learning path
-- [templates/](templates/) - Project templates based on official examples
-- [SOURCE_STRUCTURE.md](SOURCE_STRUCTURE.md) - Mapping between skill structure and official repository
+- **🎓 Tutorial**: `@source/docs/astro/src/content/docs/tutorial/` - Step-by-step learning
+- **📋 Language**: `@source/docs/astro/src/content/docs/guide/language/` - Complete language specification
+- **🔧 API**: `@source/api/rs/slint/` - Rust API documentation
+- **💎 Examples**: `@source/examples/` - Extensive working examples
+- **🎨 UI Libraries**: `@source/ui-libraries/` - Material & Fluent components
+- **📚 Integration**: `@source/docs/astro/src/content/docs/language-integrations/` - Multiple language bindings
+
+### 🛠️ Skill-Specific Resources
+- **[docs/](docs/README.md)** - Navigation guide for official documentation
+- **[examples/](examples/README.md)** - Curated learning paths with official examples
+- **[templates/](templates/README.md)** - Ready-to-use project templates
+- **[SOURCE_STRUCTURE.md](SOURCE_STRUCTURE.md)** - Complete skill structure mapping
+
+### 🚀 Quick Start Templates
+Based on official examples, ready for immediate use:
+
+1. **`templates/basic-app/`** - Simple starter with counter demo
+2. **`templates/component-library/`** - Reusable component system (planned)
+3. **`templates/cross-platform/`** - Multi-platform deployment (planned)
+4. **`templates/game-development/`** - Game development pattern (planned)
 
 ### Getting Started with Official Source
 ```bash

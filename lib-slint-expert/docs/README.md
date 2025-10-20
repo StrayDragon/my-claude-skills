@@ -1,98 +1,153 @@
-# Slint 官方文档指南
+# Slint 官方文档导航指南
 
-本目录下的所有文档都直接引用官方 Slint 仓库中的最新文档。
+本指南帮助您快速找到 Slint 官方仓库中的相关文档和教程。
 
-## 官方文档目录结构
+## 官方文档结构
 
-### @source/docs/
-官方仓库包含的完整文档集合：
+### 📚 教程 (Tutorials)
+**路径**: `@source/docs/astro/src/content/docs/tutorial/`
 
-### 语言和教程
-- **tutorial/** - 官方教程
-  - 从零开始学习 Slint
-  - 循序渐进的课程设计
-  - 实践项目示例
+官方教程通过实现一个记忆游戏来介绍 Slint 框架：
 
-- **language/** - 语言参考
-  - 语法完整说明
-  - 内置组件和属性
-  - 表达式和绑定系统
+1. **[quickstart.mdx](@source/docs/astro/src/content/docs/tutorial/quickstart.mdx)** - 教程介绍和游戏预览
+2. **[getting_started.mdx](@source/docs/astro/src/content/docs/tutorial/getting_started.mdx)** - 项目设置和基础配置
+3. **[memory_tile.mdx](@source/docs/astro/src/content/docs/tutorial/memory_tile.mdx)** - 创建记忆卡片组件
+4. **[creating_the_tiles.mdx](@source/docs/astro/src/content/docs/tutorial/creating_the_tiles.mdx)** - 实现游戏网格布局
+5. **[game_logic.mdx](@source/docs/astro/src/content/docs/tutorial/game_logic.mdx)** - 添加游戏逻辑和状态管理
+6. **[polishing_the_tile.mdx](@source/docs/astro/src/content/docs/tutorial/polishing_the_tile.mdx)** - 美化界面和添加动画
+7. **[from_one_to_multiple_tiles.mdx](@source/docs/astro/src/content/docs/tutorial/from_one_to_multiple_tiles.mdx)** - 扩展到多个卡片
+8. **[running_in_a_browser.mdx](@source/docs/astro/src/content/docs/tutorial/running_in_a_browser.mdx)** - 部署到 WebAssembly
 
-- **builtin-elements/** - 内置组件文档
-  - 所有可用 UI 组件的详细说明
-  - 属性、方法和事件
-  - 使用示例和最佳实践
+### 📖 语言参考 (Language Reference)
+**路径**: `@source/docs/astro/src/content/docs/guide/language/`
 
-### 高级主题
-- **integrations/** - 集成指南
-  - Rust 集成详细说明
-  - C++ 集成文档
-  - WebAssembly 部署指南
+- **concepts/** - 核心概念和设计原理
+- **coding/** - 语法详细说明和代码示例
 
-- **cookbook/** - 实用手册
-  - 常见问题解决方案
-  - 最佳实践集合
-  - 性能优化技巧
+### 🔌 集成指南 (Integrations)
+**路径**: `@source/docs/astro/src/content/docs/language-integrations/`
 
-- **howto/** - 操作指南
-  - 具体功能的实现方法
-  - 步骤详细的教程
-  - 代码示例和解释
+- Rust 集成指南
+- C++ 集成指南
+- NodeJS 集成指南
+- Python 集成指南
 
-## 如何使用官方文档
+## 📝 官方示例项目
 
-### 1. 学习路径建议
+### 主要示例 (位于 @source/examples/)
+1. **[gallery](@source/examples/gallery/)** - 基础组件展示
+2. **[memory](@source/examples/memory/)** - 完整的记忆游戏实现
+3. **[todo](@source/examples/todo/)** - 待办事项应用
+4. **[printerdemo](@source/examples/printerdemo/)** - 打印机管理界面
+
+### 特性示例
+- **[iot-dashboard](@source/examples/iot-dashboard/)** - IoT 仪表板
+- **[plotter](@source/examples/plotter/)** - 数据可视化
+- **[mcu-board-support](@source/examples/mcu-board-support/)** - 嵌入式开发
+
+## 🚀 学习路径建议
+
+### 🟢 初学者路径 (推荐)
 ```bash
-# 初学者路径
-@source/docs/tutorial/ → @source/docs/language/ → @source/docs/cookbook/
-
-# 进阶开发者路径
-@source/docs/language/ → @source/docs/integrations/ → @source/docs/howto/
+1. 官方教程: @source/docs/astro/src/content/docs/tutorial/quickstart.mdx
+2. 基础示例: @source/examples/gallery/
+3. 完整项目: @source/examples/memory/
+4. 语言参考: @source/docs/astro/src/content/docs/guide/language/
 ```
 
-### 2. 快速参考
-- **语法查询**: `@source/docs/language/syntax.md`
-- **组件参考**: `@source/docs/builtin-elements/`
-- **集成问题**: `@source/docs/integrations/rust/`
-- **最佳实践**: `@source/docs/coookbook/`
+### 🟡 进阶开发者路径
+```bash
+1. 语言参考: @source/docs/astro/src/content/docs/guide/language/
+2. 集成指南: @source/docs/astro/src/content/docs/language-integrations/
+3. 高级示例: @source/examples/iot-dashboard/
+4. 性能优化: 参考 @source/examples/ 中的大型项目
+```
 
-### 3. 与 Skill 模板结合使用
-在我们的模板开发中，可以参考：
+### 🔴 专家路径
+```bash
+1. 嵌入式开发: @source/examples/mcu-board-support/
+2. 高级组件: @source/ui-libraries/
+3. 内部实现: @source/api/
+4. 构建系统: @source/tools/
+```
 
-- **基础应用开发**: 参考 `@source/docs/tutorial/` 和 `@source/docs/language/`
-- **组件设计**: 参考 `@source/docs/builtin-elements/` 和 `@source/docs/cookbook/`
-- **高级功能**: 参考 `@source/docs/integrations/` 和 `@source/docs/howto/`
+## 🎯 基于官方教程的实践项目
 
-## 推荐文档阅读顺序
+### 记忆游戏教程实现
+跟随官方教程实现记忆游戏：
 
-### 入门阶段
-1. `@source/docs/tutorial/hello_world.md`
-2. `@source/docs/tutorial/components.md`
-3. `@source/docs/tutorial/layouts.md`
-4. `@source/docs/tutorial/callbacks.md`
+```rust
+// 基础项目结构
+my-memory-game/
+├── Cargo.toml
+├── build.rs
+└── src/
+    ├── main.rs
+    └── ui/
+        └── main.slint
+```
 
-### 进阶阶段
-1. `@source/docs/language/bindings.md`
-2. `@source/docs/language/properties.md`
-3. `@source/docs/cookbook/state-management.md`
-4. `@source/docs/cookbook/animations.md`
+**对应教程章节**:
+- 设置项目: `getting_started.mdx`
+- 创建卡片: `memory_tile.mdx`
+- 实现逻辑: `game_logic.mdx`
+- 添加动画: `polishing_the_tile.mdx`
 
-### 专家阶段
-1. `@source/docs/integrations/rust/complex-data.md`
-2. `@source/docs/howto/performance.md`
-3. `@source/docs/cookbook/advanced-styling.md`
+### 组件库开发
+基于官方组件库创建自定义组件：
 
-## 本地文档导航
+```bash
+# 参考官方组件库
+@source/ui-libraries/material/    # Material Design 组件
+@source/ui-libraries/fluent/      # Fluent Design 组件
+```
 
-为了方便使用，我们在本地提供了一些导航文件：
+## 📋 快速参考指南
 
-- **本文件** (`docs/README.md`) - 文档总览和使用指南
-- **快速引用** - 常用功能的快速查找指南
-- **最佳实践** - 基于官方文档的实践总结
+### 常用文档路径
+- **快速开始**: `@source/docs/astro/src/content/docs/tutorial/quickstart.mdx`
+- **API 参考**: `@source/api/rs/slint/`
+- **内置组件**: `@source/api/rs/slint/builtin/`
+- **构建配置**: `@source/docs/building.md`
+- **部署指南**: `@source/docs/astro/src/content/docs/tutorial/running_in_a_browser.mdx`
 
-## 注意事项
+### 示例代码查找
+```bash
+# 查找特定组件示例
+find @source/examples -name "*button*" -type f
 
-- 所有文档都是官方维护的最新版本
-- 文档与当前 Slint 版本完全同步
-- 包含最新的 API 变更和功能更新
-- 可以通过官方仓库获取最新的文档修订
+# 查找所有 Rust 主文件
+find @source/examples -name "main.rs" -type f
+
+# 查找所有 Slint 文件
+find @source/examples -name "*.slint" -type f
+```
+
+## 🔧 开发工具和资源
+
+### 官方工具
+- **LSP 支持**: `@source/editors/vscode-slint/`
+- **语法高亮**: `@source/editors/tree-sitter-slint/`
+- **构建工具**: `@source/xtask/`
+
+### 测试和调试
+- **测试框架**: `@source/tests/`
+- **性能分析**: `@source/tools/`
+- **调试工具**: 参考 `@source/docs/development.md`
+
+## 📖 文档使用建议
+
+### 1. 结合官方示例学习
+每学习一个概念，立即在 `@source/examples/` 中找到对应示例
+
+### 2. 跟随教程实践
+严格按照 `@source/docs/astro/src/content/docs/tutorial/` 中的步骤实践
+
+### 3. 参考官方实现
+遇到问题时，查看 `@source/examples/memory/` 等完整项目的实现
+
+### 4. 保持更新
+定期更新官方源码以获取最新功能：
+```bash
+git submodule update --remote source
+```

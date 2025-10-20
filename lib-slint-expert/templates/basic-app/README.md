@@ -1,146 +1,174 @@
-# Slint Basic Application Template
+# Basic Slint Application Template
 
-A simple, well-structured starting point for Slint GUI applications. This template demonstrates basic concepts including components, properties, callbacks, and event handling.
+A minimal but complete Slint application template based on official tutorials and examples.
 
-## Features
+## 🚀 Quick Start
 
-- ✅ Clean project structure
-- ✅ Basic component composition
-- ✅ Property binding and state management
-- ✅ Event handling and callbacks
-- ✅ Responsive layout with VerticalLayout and HorizontalLayout
-- ✅ Modern styling and theming
-- ✅ Type-safe Rust integration
+```bash
+# Copy this template to your project directory
+cp -r templates/basic-app/ my-awesome-app/
+cd my-awesome-app/
 
-## Quick Start
+# Customize your project
+# Edit Cargo.toml to change your project name and details
+# Edit ui/app.slint to design your interface
+# Edit src/main.rs to add application logic
 
-1. **Copy this template** to your project directory
-2. **Install dependencies**:
-   ```bash
-   cargo build
-   ```
-3. **Run the application**:
-   ```bash
-   cargo run
-   ```
-
-## Project Structure
-
-```
-slint-basic-app/
-├── Cargo.toml              # Project configuration
-├── build.rs                # Build script for Slint compilation
-├── README.md               # This file
-└── src/
-    ├── main.rs             # Main application logic
-    └── ui/
-        └── main.slint      # UI component definition
+# Run your application
+cargo run
 ```
 
-## How It Works
+## 📁 Project Structure
 
-### UI Definition (`src/ui/main.slint`)
+```
+basic-app/
+├── Cargo.toml          # Project configuration and dependencies
+├── build.rs            # Build script for compiling .slint files
+├── README.md           # This file
+├── src/
+│   └── main.rs         # Main application logic (Rust)
+└── ui/
+    └── app.slint       # User interface definition (Slint)
+```
 
-The main window is defined using Slint's declarative language:
+## 📚 What's Included
 
-- **Component Structure**: `MainWindow` inherits from `Window`
-- **Properties**: `counter-value` tracks the current count
-- **Callbacks**: Define custom events (`counter-button-clicked`, `reset-button-clicked`)
-- **Layout**: Uses `VerticalLayout` and `HorizontalLayout` for responsive design
-- **Styling**: Modern colors, borders, and typography
+### ✅ Core Features
+- Standard Cargo project structure
+- Basic UI with counter functionality
+- Property bindings and computed properties
+- Event handling with callbacks
+- Responsive layout with VerticalLayout and HorizontalLayout
 
-### Rust Integration (`src/main.rs`)
+### ✅ Learning Components
+- Text components for display
+- Button components for interaction
+- Layout components for organization
+- Property bindings for dynamic updates
+- Basic state management
 
-The Rust code handles business logic:
+### ✅ Ready for Extension
+- WebAssembly support (commented out)
+- Examples of data models (commented out)
+- Pattern for custom callbacks
+- Error handling template
 
-- **Component Loading**: `slint::include_modules!()` includes the UI
-- **Event Handlers**: Set up callback handlers for user interactions
-- **State Management**: Update UI properties from Rust code
-- **Application Loop**: Start the event loop with `run()`
+## 🎯 Learning Path
 
-### Build Process (`build.rs`)
+This template is designed to accompany the official Slint tutorial:
 
-The build script compiles Slint files:
+1. **Tutorial Reference**: `@source/docs/astro/src/content/docs/tutorial/`
+2. **Example Study**: `@source/examples/memory/`
+3. **Component Gallery**: `@source/examples/gallery/`
 
-- **Compilation**: `slint_build::compile()` processes `.slint` files
-- **Integration**: Generated Rust code is linked during compilation
+### Step-by-Step Guide
 
-## Customization
+#### Step 1: Understand the Basics
+- Study `ui/app.slint` to understand Slint syntax
+- Review `src/main.rs` to see Rust integration
+- Run the app and experiment with the UI
 
-### Adding New Components
-
-1. **Create new .slint file** in `src/ui/`
-2. **Import in main.slint**:
-   ```slint
-   import { MyComponent } from "my-component.slint";
-   ```
-3. **Use in layout**:
-   ```slint
-   MyComponent {
-       // properties
-   }
-   ```
-
-### Adding New Properties
-
+#### Step 2: Modify the Interface
 ```slint
-// In component definition
-property <string> user-name: "Guest";
-property <color> theme-color: #3498db;
-property <bool> enabled: true;
+// In ui/app.slint, try changing:
+// - Colors and styles
+// - Layout structure
+// - Add new components
+// - Modify properties
 ```
 
-### Adding New Callbacks
-
-```slint
-// Define callback
-callback my-event(string, int);
-
-// Trigger callback
-my-event("hello", 42);
-```
-
-### Handling Events in Rust
-
+#### Step 3: Add Application Logic
 ```rust
-// Set up handler
-let window_weak = main_window.as_weak();
-main_window.on_my_event(move |text, number| {
-    let window = window_weak.unwrap();
-    // Handle event
-    println!("Received: {} {}", text, number);
-});
+// In src/main.rs, add:
+// - New callback handlers
+// - Data models
+// - Complex state management
+// - File I/O or network operations
 ```
 
-## Learning Path
+#### Step 4: Follow Official Tutorial
+Complete the memory game tutorial:
+```bash
+# Reference the official tutorial implementation
+cd @source/examples/memory/
+# Compare with your implementation
+```
 
-1. **Start Here**: Understand the basic structure
-2. **Modify UI**: Change colors, text, and layout
-3. **Add Logic**: Implement new event handlers
-4. **Extend**: Add new components and features
-5. **Explore**: Check out other templates for advanced patterns
+## 🔧 Customization Guide
 
-## Next Steps
+### Changing the App Name
+1. Edit `Cargo.toml`:
+   ```toml
+   [package]
+   name = "your-app-name"
+   ```
+2. The UI files will automatically use the new component name
 
-- 🎨 Try the **Component Library Template** for reusable components
-- 🌐 Explore the **Cross-Platform Template** for multi-target deployment
-- 📚 Read the [Slint Documentation](https://slint.dev/)
-- 🧪 Experiment with the examples in the main skill
+### Adding New UI Components
+```slint
+// In ui/app.slint, add new components
+export component CustomButton inherits Rectangle {
+    // Your custom button implementation
+}
+```
 
-## Troubleshooting
+### Adding Complex Logic
+```rust
+// In src/main.rs, uncomment and modify the advanced example
+use slint::{SharedString, ModelRc, VecModel};
 
-**Build Issues**:
-- Ensure Rust and Cargo are installed
-- Check that all dependencies are up to date: `cargo update`
+// Add data models, complex callbacks, etc.
+```
 
-**Runtime Issues**:
-- Verify Slint backend is available on your platform
-- Check console output for error messages
+### WebAssembly Deployment
+1. Uncomment the WebAssembly sections in `Cargo.toml`
+2. Uncomment the WebAssembly code in `src/main.rs`
+3. Install wasm-pack: `curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh`
+4. Build: `wasm-pack build --target web`
 
-**UI Not Showing**:
-- Ensure window dimensions are set
-- Check that components have proper sizing constraints
+## 📖 Next Steps
 
----
+### 🟢 Beginner
+1. Modify the existing UI components
+2. Add new buttons and functionality
+3. Experiment with colors and layouts
+4. Complete the official memory game tutorial
 
-*Ready to build your first Slint application? Start customizing this template now!*
+### 🟡 Intermediate
+1. Create custom components
+2. Implement data models with VecModel
+3. Add animations and transitions
+4. Study `@source/examples/todo/` for patterns
+
+### 🔴 Advanced
+1. Implement complex state management
+2. Add file operations or networking
+3. Create multi-window applications
+4. Study `@source/examples/printerdemo/` for architecture
+
+## 🔍 Troubleshooting
+
+### Common Issues
+
+**Build Error**: "can't find crate slint"
+- Solution: Ensure you're using the latest stable Rust: `rustup update stable`
+
+**Runtime Error**: Component not found
+- Solution: Check that `build.rs` is compiling the correct .slint file path
+
+**UI Not Updating**: Properties not reflecting changes
+- Solution: Ensure you're using property bindings correctly in .slint
+
+**WebAssembly Issues**: Build failures
+- Solution: Install wasm-bindgen and follow the WebAssembly setup guide
+
+### Getting Help
+
+- **Official Documentation**: `@source/docs/`
+- **Tutorial**: `@source/docs/astro/src/content/docs/tutorial/`
+- **Examples**: `@source/examples/`
+- **Community**: Check the official Slint repository for issues and discussions
+
+## 📄 License
+
+This template follows the same license as the Slint project. Feel free to use it for your own projects!
