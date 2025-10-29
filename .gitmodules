@@ -1,3 +1,9 @@
 [submodule "lib-slint-expert/source"]
 	path = lib-slint-expert/source
 	url = git@github.com:slint-ui/slint.git
+[submodule "vscode-extension-builder/source/vscode-extension-samples"]
+	path = vscode-extension-builder/source/vscode-extension-samples
+	url = git@github.com:microsoft/vscode-extension-samples.git
+[submodule "vscode-extension-builder/source/vscode-docs"]
+	path = vscode-extension-builder/source/vscode-docs
+	url = git@github.com:microsoft/vscode-docs.git
