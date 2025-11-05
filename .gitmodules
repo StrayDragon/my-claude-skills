@@ -10,3 +10,6 @@
 [submodule "python-log-expert/source/structlog"]
 	path = python-log-expert/source/structlog
 	url = git@github.com:hynek/structlog.git
+[submodule "uv-expert/source/uv"]
+	path = uv-expert/source/uv
+	url = git@github.com:astral-sh/uv.git
