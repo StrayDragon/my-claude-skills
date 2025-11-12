@@ -1,0 +1,52 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "straydragon-claude-skills",
+  "version": "1.0.0",
+  "description": "A curated collection of practical Claude Skills for enhancing productivity across Python development, GUI programming, testing, logging, package management, and VSCode extension development",
+  "owner": {
+    "name": "StrayDragon",
+    "email": "straydragonl@foxmail.com",
+    "url": "https://github.com/StrayDragon/straydragon-claude-skills"
+  },
+  "homepage": "https://github.com/StrayDragon/straydragon-claude-skills",
+  "repository": "https://github.com/StrayDragon/straydragon-claude-skills",
+  "plugins": [
+    {
+      "name": "langgraph-python-expert",
+      "description": "Expert guidance for LangGraph Python library. Build stateful, multi-actor applications with LLMs using nodes, edges, and state management.",
+      "source": "./langgraph-python-expert",
+      "category": "development"
+    },
+    {
+      "name": "lib-slint-expert",
+      "description": "Comprehensive Slint GUI development expert based on official source code. Covers Rust integration, component design, layouts, styling, animations, and cross-platform deployment.",
+      "source": "./lib-slint-expert",
+      "category": "development"
+    },
+    {
+      "name": "python-expert-tester",
+      "description": "Expert Python testing specialist with deep knowledge of pytest, test best practices, coverage analysis, and async testing for Python 3.10+.",
+      "source": "./python-expert-tester",
+      "category": "development"
+    },
+    {
+      "name": "python-log-expert",
+      "description": "Expert guidance for Python logging libraries including structlog, standard logging, and log analysis with complete source code for deep implementation analysis.",
+      "source": "./python-log-expert",
+      "category": "development"
+    },
+    {
+      "name": "uv-expert",
+      "description": "Expert guidance for uv Python package and project manager. Use when working with uv, Python dependency management, project setup, and virtual environments.",
+      "source": "./uv-expert",
+      "category": "development"
+    },
+    {
+      "name": "vscode-extension-builder",
+      "description": "Comprehensive VSCode extension development expert that guides you through creating extensions using the official Yeoman generator tool with complete API reference.",
+      "source": "./vscode-extension-builder",
+      "category": "development"
+    }
+  ]
+}
+
