@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "postInstall": {
+      "command": "git submodule update --init --recursive",
+      "description": "Initialize and update git submodules for full functionality",
+      "workingDirectory": "."
+    }
+  }
+}
+
