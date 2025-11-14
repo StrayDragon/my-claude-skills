@@ -1,694 +1,372 @@
-# Python Testing Troubleshooting Guide
+# Python Testing Troubleshooting - Evidence-Based
 
-This guide covers common issues and their solutions when testing Python applications.
+I provide troubleshooting solutions based on your actual project analysis. I'll examine your current setup and provide targeted fixes for specific issues.
 
-## Table of Contents
-- [pytest Configuration Issues](#pytest-configuration-issues)
-- [Test Discovery Problems](#test-discovery-problems)
-- [Async Testing Issues](#async-testing-issues)
-- [Mocking and Patching Problems](#mocking-and-patching-problems)
-- [Database Testing Issues](#database-testing-issues)
-- [Coverage Issues](#coverage-issues)
-- [Performance Test Problems](#performance-test-problems)
-- [CI/CD Testing Issues](#cicd-testing-issues)
-- [Flaky Tests](#flaky-tests)
+## Project Context Analysis
 
----
+Before providing solutions, I'll analyze:
+```python
+# Your current setup (I use Read/Glob tools)
+project_config = detect_configuration_files()
+installed_packages = check_current_packages()
+python_version = get_python_version()
+error_context = analyze_error_patterns()
 
-## pytest Configuration Issues
-
-### Test files not being discovered
-
-**Problem**: pytest is not finding your test files or tests.
-
-**Symptoms**:
-```
-============================= test session starts ==============================
-collected 0 items
-============================== no tests ran ===============================
+# Your actual testing issues
+test_discovery_issues = check_test_discovery()
+configuration_problems = identify_configuration_issues()
+execution_failures = analyze_test_failures()
 ```
 
-**Solutions**:
+## Issue-Based Troubleshooting
 
-1. **Check file naming convention**:
-   ```bash
-   # Files should be named either:
-   test_*.py
-   # or
-   *_test.py
-   ```
+### Test Discovery Problems
 
-2. **Verify test naming**:
-   ```python
-   # Functions should start with test_
-   def test_something():  # ✓ Correct
-   def something_test():  # ✗ Incorrect
-
-   # Classes should start with Test
-   class TestSomething:  # ✓ Correct
-   class SomethingTest:  # ✗ Incorrect
-   ```
-
-3. **Check pytest.ini configuration**:
-   ```ini
-   [tool:pytest]
-   testpaths = tests
-   python_files = test_*.py *_test.py
-   python_classes = Test*
-   python_functions = test_*
-   ```
-
-4. **Use explicit file paths**:
-   ```bash
-   pytest tests/test_specific_file.py
-   pytest tests/test_specific_file.py::test_specific_function
-   ```
-
-### Import errors in tests
-
-**Problem**: `ImportError` or `ModuleNotFoundError` when running tests.
-
-**Solutions**:
-
-1. **Install package in development mode**:
-   ```bash
-   pip install -e .
-   ```
-
-2. **Add source directory to PYTHONPATH**:
-   ```bash
-   export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
-   pytest
-   ```
-
-3. **Use pytest's src layout**:
-   ```
-   myproject/
-   ├── src/
-   │   └── mypackage/
-   └── tests/
-       └── test_mypackage.py
-   ```
-
-4. **Use conftest.py to set up imports**:
-   ```python
-   # tests/conftest.py
-   import sys
-   import os
-   sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-   ```
-
----
-
-## Test Discovery Problems
-
-### Tests in nested directories not found
-
-**Problem**: Tests in subdirectories are not being discovered.
-
-**Solution**: Ensure proper `__init__.py` files and configuration:
-
-```bash
-# Directory structure
-tests/
-├── __init__.py
-├── unit/
-│   ├── __init__.py
-│   └── test_module.py
-└── integration/
-    ├── __init__.py
-    └── test_api.py
-```
-
-```ini
-# pytest.ini
-[tool:pytest]
-testpaths = tests
-python_files = test_*.py
-python_classes = Test*
-python_functions = test_*
-```
-
-### Parameterized tests not running
-
-**Problem**: Parametrized tests show as collected but don't execute.
-
-**Solutions**:
-
-1. **Check for syntax errors**:
-   ```python
-   # Correct parametrize usage
-   @pytest.mark.parametrize("input,expected", [
-       ("test1", "result1"),
-       ("test2", "result2"),
-   ])
-   def test_function(input, expected):
-       assert process(input) == expected
-   ```
-
-2. **Verify marker registration**:
-   ```ini
-   # pytest.ini
-   [tool:pytest]
-   markers =
-       parametrize: Parameterize test cases
-   ```
-
----
-
-## Async Testing Issues
-
-### Async tests not executing
-
-**Problem**: `RuntimeError: asyncio.run() cannot be called from a running event loop`
-
-**Solutions**:
-
-1. **Install pytest-asyncio**:
-   ```bash
-   pip install pytest-asyncio
-   ```
-
-2. **Configure asyncio mode**:
-   ```ini
-   # pytest.ini
-   [tool:pytest]
-   asyncio_mode = auto
-   ```
-
-3. **Use correct async syntax**:
-   ```python
-   @pytest.mark.asyncio
-   async def test_async_function():
-       result = await some_async_function()
-       assert result is not None
-   ```
-
-### Async fixtures not working
-
-**Problem**: Async fixtures don't work with regular tests.
-
-**Solution**: Use async fixtures only with async tests:
+#### First, I'll check your actual structure:
 
 ```python
-@pytest.fixture
-async def async_fixture():
-    return await setup_async_resource()
+# Files not found - I'll analyze your actual project
+if test_files_exist() and not_discovering():
+    print("🔍 Analyzing test discovery issues...")
 
-@pytest.mark.asyncio
-async def test_with_async_fixture(async_fixture):
-    result = await async_fixture.do_something()
-    assert result is not None
+    # Check your actual file naming patterns
+    found_files = glob("**/*test*.py", recursive=True)
+    py_files = glob("**/*.py", recursive=True)
+
+    print(f"Found {len(found_files)} files with 'test' in name")
+    print(f"Total Python files: {len(py_files)}")
+
+    # Check naming convention compliance
+    test_pattern_compliant = [
+        f for f in found_files
+        if f.startswith("test_") or f.endswith("_test.py")
+    ]
+
+    print(f"Files following pytest naming: {len(test_pattern_compliant)}")
+
+    # Show specific issues
+    non_compliant = [
+        f for f in found_files
+        if not (f.startswith("test_") or f.endswith("_test.py"))
+    ]
+
+    if non_compliant:
+        print("\nFiles that don't follow pytest naming convention:")
+        for f in non_compliant[:5]:  # Show first 5
+            print(f"  - {f}")
+        print("    Should be: test_{name} or {name}_test.py")
 ```
 
-### Mixed sync/async test issues
-
-**Problem**: Mixing sync and async tests in the same test class.
-
-**Solution**: Separate sync and async tests:
+#### Configuration File Detection
 
 ```python
-class TestMixedFunctionality:
-    def test_sync_functionality(self):
-        # Synchronous test
-        assert sync_function() works
+# Check what configuration you actually have
+config_files = {
+    'pyproject.toml': glob("pyproject.toml"),
+    'pytest.ini': glob("pytest.ini"),
+    'setup.cfg': glob("setup.cfg"),
+    'tox.ini': glob("tox.ini")
+}
 
-    @pytest.mark.asyncio
-    async def test_async_functionality(self):
-        # Asynchronous test
-        result = await async_function()
-        assert result is not None
+if not any(config_files.values()):
+    print("No pytest configuration files found.")
+    print("Consider creating pytest.ini with basic configuration:")
+    print("  [tool:pytest]")
+    print("  testpaths = tests")
+    print("  python_files = test_*.py *_test.py")
 ```
 
----
+### Import Errors (Project-Specific Analysis)
 
-## Mocking and Patching Problems
-
-### Patch not working
-
-**Problem**: Mock/Patch decorator doesn't replace the target function.
-
-**Solutions**:
-
-1. **Patch the right location**:
-   ```python
-   # Patch where the function is USED, not where it's defined
-   @patch('module_using_function.function_name')  # ✓ Correct
-   @patch('module_defining_function.function_name')  # ✗ Incorrect
-   ```
-
-2. **Use proper import path**:
-   ```python
-   # If you import like: from requests import get
-   @patch('requests.get')  # ✓ Correct
-
-   # If you import like: import requests
-   @patch('requests.get')  # ✓ Correct
-   ```
-
-3. **Check patch scope**:
-   ```python
-   # Local patch
-   def test_function():
-       with patch('module.function') as mock_func:
-           # Test code here
-
-   # Global patch
-   @patch('module.function')
-   def test_function(mock_func):
-       # Test code here
-   ```
-
-### Mock assertions failing
-
-**Problem**: `assert_not_called()` or `assert_called_with()` failing unexpectedly.
-
-**Solutions**:
-
-1. **Clear mock state between tests**:
-   ```python
-   def test_function1(mock_func):
-       mock_func.reset_mock()
-       # Test code
-   ```
-
-2. **Check mock call history**:
-   ```python
-   print(mock_func.call_args_list)
-   print(mock_func.call_count)
-   print(mock_func.called)
-   ```
-
-3. **Use assert_called_once_with()**:
-   ```python
-   mock_func.assert_called_once_with(expected_args, expected_kwargs)
-   ```
-
-### Async mocking issues
-
-**Problem**: Mocking async functions incorrectly.
-
-**Solution**: Use `AsyncMock` for async functions:
+#### Python Path Issues
 
 ```python
-from unittest.mock import AsyncMock
+# I'll analyze your actual project structure
+project_structure = analyze_project_layout()
+import_errors = detect_import_errors()
 
-@pytest.mark.asyncio
-async def test_async_function(mocker):
-    # Mock async function
-    mock_async = mocker.AsyncMock(return_value="async result")
+if import_errors:
+    print(f"🔍 Found {len(import_errors)} import issues:")
 
-    # Use the mock
-    result = await some_async_function(mock_async)
+    for error in import_errors[:5]:  # Show first 5
+        print(f"  - {error['file']}:{error['line']}: {error['error']}")
+        print(f"    Trying to import: {error['import_module']}")
 
-    # Assertions
-    mock_async.assert_awaited_once()
-    assert result == "async result"
+    # Provide solution based on your structure
+    if project_structure['layout'] == 'src_layout':
+        print("    Solution: Install in development mode:")
+        print("      pip install -e .")
+        print("    Or add to PYTHONPATH:")
+        print("      export PYTHONPATH=$(pwd)/src:$PYTHONPATH")
+
+    elif project_structure['layout'] == 'flat_layout':
+        print("    Solution: Add current directory to path:")
+        print("      export PYTHONPATH=$(pwd):$PYTHONPATH")
 ```
 
----
-
-## Database Testing Issues
-
-### Test database isolation
-
-**Problem**: Tests are affecting each other through the database.
-
-**Solutions**:
-
-1. **Use transactions and rollbacks**:
-   ```python
-   @pytest.fixture
-   def db_session():
-       engine = create_engine("sqlite:///:memory:")
-       Session = sessionmaker(bind=engine)
-       session = Session()
-
-       transaction = session.begin_nested()
-       yield session
-
-       transaction.rollback()
-       session.close()
-   ```
-
-2. **Clean up after each test**:
-   ```python
-   @pytest.fixture(autouse=True)
-   def cleanup_database(db_session):
-       yield
-       db_session.query(MyModel).delete()
-       db_session.commit()
-   ```
-
-3. **Use separate databases for each test**:
-   ```python
-   @pytest.fixture
-   def db_session(tmp_path):
-       db_file = tmp_path / "test.db"
-       engine = create_engine(f"sqlite:///{db_file}")
-       # Setup database
-       yield session
-   ```
-
-### Foreign key constraint issues
-
-**Problem**: Database tests failing due to foreign key constraints.
-
-**Solutions**:
-
-1. **Create data in correct order**:
-   ```python
-   def test_with_foreign_keys(db_session):
-       # Create parent first
-       parent = Parent(name="Test Parent")
-       db_session.add(parent)
-       db_session.commit()
-
-       # Then create child
-       child = Child(name="Test Child", parent_id=parent.id)
-       db_session.add(child)
-       db_session.commit()
-   ```
-
-2. **Use cascade relationships**:
-   ```python
-   class Child(Base):
-       parent_id = Column(Integer, ForeignKey('parent.id', ondelete='CASCADE'))
-       parent = relationship("Parent", back_populates="children")
-   ```
-
-### Migration testing problems
-
-**Problem**: Migration tests are slow or unreliable.
-
-**Solutions**:
-
-1. **Use in-memory databases**:
-   ```python
-   @pytest.fixture
-   def memory_engine():
-       return create_engine("sqlite:///:memory:")
-   ```
-
-2. **Test migrations in isolation**:
-   ```python
-   def test_single_migration(alembic_config):
-       # Test just one migration
-       alembic.command.upgrade(alembic_config, "+1")
-       # Test database state
-       alembic.command.downgrade(alembic_config, "-1")
-   ```
-
----
-
-## Coverage Issues
-
-### Coverage not showing tests
-
-**Problem**: Coverage report shows 0% coverage despite running tests.
-
-**Solutions**:
-
-1. **Install pytest-cov**:
-   ```bash
-   pip install pytest-cov
-   ```
-
-2. **Configure coverage source**:
-   ```ini
-   # .coveragerc
-   [run]
-   source = src
-   omit =
-       tests/*
-       __pycache__/*
-       .venv/*
-   ```
-
-3. **Use correct pytest command**:
-   ```bash
-   pytest --cov=src tests/
-   pytest --cov=src --cov-report=html tests/
-   ```
-
-### Excluding code from coverage
-
-**Problem**: Need to exclude certain code from coverage calculation.
-
-**Solutions**:
-
-1. **Use pragma comments**:
-   ```python
-   def debug_function():
-       # pragma: no cover
-       print("This is debug code")
-   ```
-
-2. **Configure in .coveragerc**:
-   ```ini
-   [run]
-   omit =
-       tests/*
-       migrations/*
-       venv/*
-       */migrations/*
-   ```
-
-3. **Use coverage configuration**:
-   ```ini
-   [report]
-   exclude_lines =
-       pragma: no cover
-       def __repr__
-       raise AssertionError
-       raise NotImplementedError
-   ```
-
----
-
-## Performance Test Problems
-
-### Inconsistent performance results
-
-**Problem**: Performance tests show inconsistent timing.
-
-**Solutions**:
-
-1. **Use benchmarking libraries**:
-   ```bash
-   pip install pytest-benchmark
-   ```
-
-2. **Run multiple iterations**:
-   ```python
-   @pytest.mark.parametrize("iteration", range(10))
-   def test_performance_consistency(iteration):
-       result = expensive_operation()
-       assert result is not None
-   ```
-
-3. **Control test environment**:
-   ```python
-   @pytest.fixture(autouse=True)
-   def setup_environment():
-       # Disable GC during performance tests
-       import gc
-       gc.disable()
-       yield
-       gc.enable()
-   ```
-
-### Resource cleanup in performance tests
-
-**Problem**: Performance tests leaving resources open.
-
-**Solutions**:
-
-1. **Explicit resource cleanup**:
-   ```python
-   def test_with_cleanup():
-       resource = allocate_resource()
-       try:
-           # Performance test here
-           pass
-       finally:
-           resource.cleanup()
-   ```
-
-2. **Use context managers**:
-   ```python
-   def test_with_context_manager():
-       with allocate_resource() as resource:
-           # Performance test here
-           pass
-   ```
-
----
-
-## CI/CD Testing Issues
-
-### Tests passing locally but failing in CI
-
-**Problem**: Tests work on local machine but fail in CI environment.
-
-**Solutions**:
-
-1. **Check environment differences**:
-   ```yaml
-   # GitHub Actions example
-   - name: Debug environment
-     run: |
-       python --version
-       pip list
-       printenv
-   ```
-
-2. **Use consistent Python versions**:
-   ```yaml
-   # .github/workflows/test.yml
-   strategy:
-     matrix:
-       python-version: [3.10, 3.11, 3.12]
-   ```
-
-3. **Install all dependencies**:
-   ```yaml
-   - name: Install dependencies
-     run: |
-       pip install -e .[dev,test]
-       pip install pytest pytest-cov pytest-asyncio
-   ```
-
-### Test timing out in CI
-
-**Problem**: Tests timeout in CI due to slow execution.
-
-**Solutions**:
-
-1. **Increase timeout values**:
-   ```yaml
-   - name: Run tests
-     run: pytest
-     timeout-minutes: 10
-   ```
-
-2. **Use parallel execution**:
-   ```bash
-   pytest -n auto  # Use pytest-xdist
-   ```
-
-3. **Run tests faster**:
-   ```bash
-   # Skip slow tests in CI
-   pytest -m "not slow" --cov=src
-   ```
-
----
-
-## Flaky Tests
-
-### Tests failing intermittently
-
-**Problem**: Tests sometimes pass, sometimes fail.
-
-**Solutions**:
-
-1. **Identify race conditions**:
-   ```python
-   import time
-
-   def test_with_retry():
-       max_attempts = 3
-       for attempt in range(max_attempts):
-           try:
-               result = potentially_flaky_operation()
-               assert result is not None
-               break
-           except AssertionError:
-               if attempt == max_attempts - 1:
-                   raise
-               time.sleep(0.1)
-   ```
-
-2. **Fix timing dependencies**:
-   ```python
-   # Use explicit waits instead of time.sleep()
-   import asyncio
-
-   @pytest.mark.asyncio
-   async def test_async_operation():
-       # Wait for condition instead of fixed delay
-       await wait_for_condition(lambda: check_condition(), timeout=5.0)
-   ```
-
-3. **Isolate tests better**:
-   ```python
-   @pytest.fixture(autouse=True)
-   def isolate_tests():
-       # Setup isolation
-       yield
-       # Cleanup isolation
-   ```
-
-### Database-related flaky tests
-
-**Problem**: Database tests failing due to connection or transaction issues.
-
-**Solutions**:
-
-1. **Use connection pooling**:
-   ```python
-   @pytest.fixture
-   def db_engine():
-       engine = create_engine(
-           "postgresql://user:pass@localhost/testdb",
-           pool_size=1,
-           max_overflow=0
-       )
-       yield engine
-   ```
-
-2. **Implement retry logic**:
-   ```python
-   import tenacity
-
-   @tenacity.retry(
-       stop=tenacity.stop_after_attempt(3),
-       wait=tenacity.wait_exponential(multiplier=1, min=1, max=10)
-   )
-   def test_database_operation():
-       # Test code that might fail due to transient issues
-       pass
-   ```
-
-## Debugging Tips
-
-### Enable verbose output
-```bash
-pytest -v -s tests/
-pytest --tb=long tests/
+#### Dependency Conflicts
+
+```python
+# Check for actual dependency conflicts
+conflicts = analyze_dependency_conflicts()
+
+if conflicts:
+    print("⚠️ Dependency conflicts detected:")
+    for conflict in conflicts:
+        print(f"  - {conflict['package']}: {conflict['issue']}")
+        print(f"    Current: {conflict['installed_version']}")
+        print(f"    Required: {conflict['required_version']}")
+
+    # Provide specific resolution
+    if conflict['resolution_type'] == 'upgrade':
+        print(f"    Resolution: pip install {conflict['package']}>={conflict['required_version']}")
+    elif conflict['resolution_type'] == 'downgrade':
+        print(f"    Resolution: pip install {conflict['package']}=={conflict['required_version']}")
 ```
 
-### Run specific tests
-```bash
-pytest tests/test_file.py::test_function
-pytest -k "test_name" tests/
+### Test Execution Issues
+
+#### Fixture Problems
+
+```python
+# Analyze your actual fixture usage
+fixture_issues = analyze_fixture_issues()
+
+if fixture_issues:
+    print("🔧 Fixture-related issues found:")
+
+    for issue in fixture_issues:
+        print(f"  - {issue['test_file']}:{issue['line']}: {issue['description']}")
+
+        if issue['type'] == 'undefined_fixture':
+            print(f"    Undefined fixture: {issue['fixture_name']}")
+            similar_fixtures = find_similar_fixtures(issue['fixture_name'])
+            if similar_fixtures:
+                print(f"    Did you mean: {similar_fixtures[0]}?")
+
+        elif issue['type'] == 'scope_mismatch':
+            print(f"    Fixture scope issue: {issue['current_scope']}")
+            print(f"    Suggested scope: {issue['suggested_scope']}")
 ```
 
-### Debug failed tests
-```bash
-pytest --pdb tests/
-pytest --pdb -x tests/  # Stop at first failure
+#### Assertion Failures
+
+```python
+# Analyze actual assertion failures
+assertion_failures = analyze_assertion_failures()
+
+for failure in assertion_failures:
+    print(f"❌ {failure['test_file']}:{failure['line']}")
+    print(f"   Expected: {failure['expected']}")
+    print(f"   Actual: {failure['actual']}")
+    print(f"   Context: {failure['context']}")
+
+    # Provide targeted fix suggestions
+    if "float comparison" in failure['context']:
+        print("   💡 Consider using pytest.approx for floating point comparisons")
+        print(f"   Suggested: assert {failure['expected'].replace('==', '== pytest.approx')}")
+
+    elif "collection length" in failure['context']:
+        print("   💡 Check collection contents:")
+        print(f"   Debug: print(len({failure['actual_variable']}))")
 ```
 
-### Show test collection
-```bash
-pytest --collect-only tests/
+## Configuration-Specific Issues
+
+### pytest.ini Problems
+
+```python
+# Analyze your actual pytest.ini
+config_content = read_pytest_ini()
+config_issues = analyze_pytest_ini_issues(config_content)
+
+for issue in config_issues:
+    print(f"⚙️ pytest.ini issue: {issue}")
+    print(f"   Line: {issue['line_number']}")
+    print(f"   Current: {issue['current_content']}")
+    print(f"   Suggested: {issue['suggested_content']}")
 ```
 
-### Use profiling
-```bash
-pytest --profile tests/  # Requires pytest-profiling
+### pyproject.toml Integration
+
+```python
+# Check if pyproject.toml is properly configured
+if has_pyproject_toml():
+    toml_content = read_pyproject_toml()
+
+    if '[tool.pytest.ini_options]' not in toml_content:
+        print("⚙️ pyproject.toml found but pytest config missing")
+        print("Add this section to your pyproject.toml:")
+        print("""
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+""")
 ```
 
-Remember to always check the specific error messages and stack traces, as they often provide the most direct clues to the solution.
+## Environment-Specific Issues
+
+### Virtual Environment Problems
+
+```python
+# Check your actual environment setup
+env_analysis = analyze_environment()
+
+if env_analysis['python_path_issues']:
+    print("🌍 Python path issues detected:")
+    print("  Current PYTHONPATH:", env_analysis['current_path'])
+    print("  Project not in path")
+
+    # Provide targeted fix
+    if env_analysis['project_location']:
+        print("  Fix: export PYTHONPATH={project_location}:$PYTHONPATH")
+
+if env_analysis['package_conflicts']:
+    print("📦 Package conflicts found:")
+    for conflict in env_analysis['package_conflicts']:
+        print(f"  - {conflict}")
+        print(f"    Try: pip install --force-reinstall {conflict}")
+```
+
+### CI/CD Testing Failures
+
+```python
+# Analyze CI configuration if it exists
+ci_config = detect_ci_configuration()
+
+if ci_config and test_failures_in_ci:
+    print("🔄 CI testing issues found:")
+    print(f"  Platform: {ci_config['platform']}")
+    print(f"  Python version: {ci_config['python_version']}")
+
+    # Compare with local environment
+    local_version = get_python_version()
+    if local_version != ci_config['python_version']:
+        print(f"  Version mismatch: local={local_version}, CI={ci_config['python_version']}")
+        print(f"  Consider: Use same Python version locally")
+```
+
+## Real-time Error Analysis
+
+### When You Report Specific Errors
+
+I'll analyze your specific error context:
+
+```python
+def analyze_specific_error(error_message, stack_trace):
+    """Analyze your specific error with full context"""
+
+    print("🔍 Analyzing error context...")
+
+    # Extract key information
+    error_type = extract_error_type(error_message)
+    test_file = extract_test_file(stack_trace)
+    line_number = extract_line_number(stack_trace)
+
+    print(f"Error Type: {error_type}")
+    print(f"Location: {test_file}:{line_number}")
+
+    # Check for common patterns
+    if "ModuleNotFoundError" in error_message:
+        missing_module = extract_missing_module(error_message)
+        print(f"Missing module: {missing_module}")
+
+        # Check if it's a dependency issue
+        if missing_module in get_required_packages():
+            print(f"Required dependency not installed. Try:")
+            print(f"  pip install {missing_module}")
+        else:
+            print(f"Import issue - check PYTHONPATH and project structure")
+
+    # Provide specific fixes based on actual error
+    provide_specific_fix(error_type, error_message, stack_trace)
+```
+
+## Progressive Problem Solving
+
+### Step 1: Diagnose with Evidence
+
+```python
+# Always start with concrete evidence
+def diagnose_testing_issue():
+    """Provide evidence-based diagnosis"""
+
+    evidence = {
+        'project_structure': analyze_project_layout(),
+        'existing_tests': find_test_files(),
+        'configuration': detect_configuration(),
+        'environment': analyze_environment(),
+        'recent_failures': get_recent_test_failures()
+    }
+
+    return evidence
+```
+
+### Step 2: Targeted Solutions
+
+```python
+# Provide solutions only for identified issues
+def provide_targeted_solutions(evidence):
+    """Solutions based on actual analysis"""
+
+    solutions = []
+
+    if evidence['environment']['python_path_issues']:
+        solutions.append({
+            'type': 'environment',
+            'issue': 'Python path problem',
+            'fix': 'export PYTHONPATH=...',
+            'command': 'export PYTHONPATH=$PWD/src:$PYTHONPATH'
+        })
+
+    if evidence['configuration']['missing_config']:
+        solutions.append({
+            'type': 'configuration',
+            'issue': 'No pytest configuration',
+            'fix': 'Create pytest.ini',
+            'example': '[tool:pytest]\ntestpaths = tests\n'
+        })
+
+    return solutions
+```
+
+## Getting Help with Specific Issues
+
+### When You Report Problems
+
+Provide context about your issue:
+
+```python
+# When you report a problem, please include:
+context = {
+    'error_message': "The full error you're seeing",
+    'command_run': "Command you ran (e.g., pytest tests/)",
+    'expected_behavior': "What you expected to happen",
+    'actual_result': "What actually happened",
+    'recent_changes': "Any recent changes to tests or configuration"
+}
+```
+
+### Example Issue Report
+
+```
+❌ Error Message: ModuleNotFoundError: No module named 'pytest_asyncio'
+🔍 Command Run: pytest tests/test_async.py
+📋 Expected: Tests should run with async support
+📍 Actual Result: Module import error
+📝 Recent Changes: Added async test function
+
+🔍 Analysis: Async test found but pytest-asyncio not installed
+💡 Solution: pip install pytest-asyncio
+✅ Verification: pytest --version should show pytest-asyncio plugin
+```
+
+## Key Principles
+
+1. **Evidence First** - Always start with actual project analysis
+2. **Context-Aware** - Solutions tailored to your specific setup
+3. **Backup Conscious** - Remind to backup before configuration changes
+4. **Incremental** - One fix at a time, verify each works
+5. **Verification** - Test each solution before moving to the next
+
+Remember: I'll analyze your actual project and provide specific, actionable solutions based on concrete evidence rather than generic troubleshooting advice.

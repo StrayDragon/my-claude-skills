@@ -1,688 +1,342 @@
-# Python Testing Examples
+# Python Testing Examples - Evidence-Based
 
-This file contains comprehensive examples for common testing scenarios in Python.
+These examples are provided after I analyze your existing project structure. I'll only suggest changes when there's concrete evidence of improvement opportunities.
 
-## Table of Contents
-- [Basic Unit Testing](#basic-unit-testing)
-- [Mocking and Patching](#mocking-and-patching)
-- [Async Testing](#async-testing)
-- [Database Testing](#database-testing)
-- [API Testing](#api-testing)
-- [File System Testing](#file-system-testing)
-- [Performance Testing](#performance-testing)
-- [Error Handling Testing](#error-handling-testing)
-- [Property-Based Testing](#property-based-testing)
+## Project Analysis First
 
----
-
-## Basic Unit Testing
-
-### Simple Business Logic
+Before providing examples, I'll examine:
 ```python
-# calculator.py
-class Calculator:
-    def add(self, a, b):
-        return a + b
+# Your current setup (I use Read/Glob tools)
+project_structure = analyze_project_layout()
+existing_config = detect_configuration()
+test_files = find_test_files()
+installed_packages = check_dependencies()
 
-    def divide(self, a, b):
-        if b == 0:
-            raise ValueError("Cannot divide by zero")
-        return a / b
-
-# test_calculator.py
-class TestCalculator:
-    def test_add_positive_numbers(self):
-        calc = Calculator()
-        assert calc.add(2, 3) == 5
-
-    def test_add_negative_numbers(self):
-        calc = Calculator()
-        assert calc.add(-1, -4) == -5
-
-    def test_divide_normal_case(self):
-        calc = Calculator()
-        assert calc.divide(10, 2) == 5
-
-    def test_divide_by_zero_raises_error(self):
-        calc = Calculator()
-        with pytest.raises(ValueError, match="Cannot divide by zero"):
-            calc.divide(10, 0)
+# Evidence-based analysis
+test_quality = analyze_test_quality(test_files)
+coverage_gaps = identify_coverage_gaps()
+configuration_needs = assess_configuration_effectiveness()
 ```
 
-### Parametrized Testing
-```python
-# Test multiple scenarios with one test
-@pytest.mark.parametrize("a,b,expected", [
-    (2, 3, 5),
-    (-1, 1, 0),
-    (0, 0, 0),
-    (100, -50, 50),
-])
-def test_calculator_add(a, b, expected):
-    calc = Calculator()
-    assert calc.add(a, b) == expected
+## Example Analysis Output
 
-# Test edge cases
-@pytest.mark.parametrize("input_value,should_raise", [
-    ("valid@email.com", False),
-    ("invalid-email", True),
-    ("", True),
-    ("a@b.c", False),
-    (None, True),
-])
-def test_email_validation(input_value, should_raise):
-    if should_raise:
-        with pytest.raises(ValidationError):
-            validate_email(input_value)
+### When NO Changes Are Needed
+
+If your tests are already well-structured:
+```
+✅ Analysis Complete
+- Found 15 test files with good naming conventions
+- Coverage: 87% (adequate for project size)
+- Configuration: Effective pytest.ini setup
+- Test patterns: Uses fixtures, parametrization, and markers appropriately
+
+Recommendation: Your current testing setup is well-organized. Consider minor enhancements only if specific gaps are identified.
+```
+
+### When Changes Are Justified
+
+If I find concrete issues:
+```
+📝 Analysis Complete
+- Found 12 test files with improvement opportunities
+- Coverage: 45% (low for mature project)
+- Issues identified:
+  - 3 non-descriptive test names
+  - Missing async tests for async code
+  - No integration tests for external APIs
+
+Evidence-based recommendations:
+1. Rename tests for clarity
+2. Add async testing setup
+3. Add integration tests
+```
+
+## Unit Testing Examples
+
+### Evidence-Driven Test Naming
+
+**Before suggesting naming improvements:**
+```python
+# I'll show you the actual test names I found
+current_tests = [
+    ("test1", "tests/user.py:15"),           # Non-descriptive
+    ("test_data", "tests/user.py:25"),       # Vague
+    ("test_user_creation", "tests/user.py:35"),  # Good
+    ("email_validation", "tests/user.py:45")   # Good
+]
+
+if len(non_descriptive) / len(current_tests) > 0.3:
+    print(f"Found {len(non_descriptive)} tests with unclear names:")
+    for name, location in non_descriptive:
+        better_name = suggest_better_name(name, location)
+        print(f"  {location}: '{name}' → '{better_name}'")
+```
+
+### Pattern-Based Testing
+
+**Only suggest patterns when gaps are identified:**
+
+```python
+# If your project has validation logic but no edge case testing:
+if has_validation_code() and not_has_edge_case_tests():
+    print("Found validation code without edge case coverage:")
+    print("Suggest adding tests for:")
+    print("  - Empty strings")
+    print("  - Boundary values")
+    print("  - Invalid formats")
+
+    # Concrete example based on your code
+    print(f"\nIn tests/test_validation.py:")
+    print("  + def test_email_validation_edge_cases():")
+    print("  +     assert validate_email('') == False")
+    print("  +     assert validate_email('test@') == False")
+```
+
+## Integration Testing Examples
+
+### Framework-Specific (Based on Detection)
+
+**I'll check what frameworks you actually use:**
+
+```python
+# Detect your actual dependencies
+frameworks = {
+    'fastapi': check_import('fastapi'),
+    'flask': check_import('flask'),
+    'django': check_import('django'),
+    'aiohttp': check_import('aiohttp'),
+    'httpx': check_import('httpx')
+}
+
+# Only suggest integration tests for frameworks you use
+if frameworks['fastapi'] and not_has_integration_tests():
+    print("FastAPI detected but no integration tests found.")
+    print("Consider adding tests for:")
+    print("  - API endpoint testing")
+    print("  - Database interaction")
+    print("  - Authentication flow")
+```
+
+### Database Testing (Based on Your Setup)
+
+```python
+# Check your actual database setup
+if has_sqlalchemy() and not_has_database_tests():
+    print("SQLAlchemy detected but no database tests found.")
+
+    # Show you your current models
+    models = find_sqlalchemy_models()
+    if models:
+        print("Found models without tests:")
+        for model in models:
+            print(f"  - {model.__name__} in {model.__module__}")
+
+    print("Suggest database testing pattern:")
+    print("  def test_user_crud_operations(db_session):")
+    print("      # Test Create, Read, Update, Delete")
+```
+
+## Configuration Examples
+
+### Analysis-Based Enhancements
+
+**I'll show you exactly what I'm changing:**
+
+```python
+# Current configuration analysis
+current_config = read_pytest_ini()
+print("Current pytest.ini:")
+for line in current_config:
+    print(f"  {line}")
+
+# Suggested changes with diff view
+suggested_config = enhance_pytest_config(current_config)
+print(f"\nSuggested additions:")
+for addition in suggested_config['additions']:
+    print(f"  + {addition}")
+
+print(f"\nReason: {suggested_config['reason']}")
+print("Backup your current config before applying changes.")
+```
+
+### Progressive Configuration
+
+**Only add what you actually need:**
+
+```python
+# Check what testing features you need
+needs = analyze_testing_needs()
+config_additions = {}
+
+if needs['coverage'] and '--cov' not in current_config:
+    config_additions['addopts'] = ['--cov=src']
+    config_additions['reason'] = "Project size indicates coverage needs"
+
+if needs['markers'] and 'markers' not in current_config:
+    config_additions['markers'] = {
+        'unit': 'marks tests as unit tests',
+        'integration': 'marks tests as integration tests'
+    }
+    config_additions['reason'] = "Better test organization found"
+
+if config_additions:
+    print("Recommended pytest.ini additions:")
+    for key, value in config_additions.items():
+        if key != 'reason':
+            print(f"  {key}: {value}")
+    print(f"\nRationale: {config_additions['reason']}")
+```
+
+## Mock Testing Examples
+
+### Context-Aware Mocking
+
+**I'll analyze what you're actually testing:**
+
+```python
+# Find your external dependencies
+external_calls = analyze_external_dependencies()
+
+# Only suggest mocks for actual external calls
+if 'requests.get' in external_calls:
+    print("Found requests.get() calls in your code.")
+    print("Consider mock example:")
+    print("  @patch('requests.get')")
+    print("  def test_api_call(mock_get):")
+    print("      mock_get.return_value.json.return_value = {'id': 1}")
+    print("      result = fetch_user_data(1)")
+    print("      assert result['id'] == 1")
+
+if 'database_connection' in external_calls:
+    print("Found database connections that might need mocking.")
+```
+
+### Risk-Based Mocking
+
+**Only mock what could affect test reliability:**
+
+```python
+# Analyze risk factors
+risk_factors = {
+    'external_api_calls': check_external_api_usage(),
+    'network_dependencies': check_network_dependencies(),
+    'timing_sensitive': check_timing_sensitive_code()
+}
+
+if sum(risk_factors.values()) > 2:
+    print("Multiple risk factors detected. Consider mocking strategies:")
+    print("  1. External API calls for reliability")
+    print("  2. Network dependencies to avoid test failures")
+    print("  3. Time-sensitive operations for deterministic tests")
+```
+
+## Performance Testing Examples
+
+### Need-Based Benchmarking
+
+**Only suggest performance testing when it's actually needed:**
+
+```python
+# Check if performance is a concern
+performance_indicators = {
+    'large_datasets': check_dataset_sizes(),
+    'complex_algorithms': check_algorithmic_complexity(),
+    'user_complaints': check_performance_issues()
+}
+
+if any(performance_indicators.values()):
+    print("Performance testing considerations:")
+
+    if performance_indicators['large_datasets']:
+        print("  - Large datasets detected: consider performance tests")
+        print("  - Example: pytest --benchmark sorting_large_dataset")
+
+    if performance_indicators['complex_algorithms']:
+        print("  - Complex algorithms found: benchmark critical paths")
+
+    if performance_indicators['user_complaints']:
+        print("  - Performance issues reported: identify bottlenecks")
+```
+
+## Dependency Management
+
+### Evidence-Based Package Addition
+
+**Only suggest packages you actually need:**
+
+```python
+# Analyze your actual needs
+needs = {
+    'async_testing': check_async_code_without_tests(),
+    'http_testing': check_http_clients_without_tests(),
+    'coverage_tools': check_coverage_needs(),
+    'performance_tools': check_performance_needs()
+}
+
+package_recommendations = []
+
+if needs['async_testing']:
+    package_recommendations.append({
+        'package': 'pytest-asyncio',
+        'reason': f"Found async code in {count_async_files()} files",
+        'current_version': get_installed_version('pytest-asyncio')
+    })
+
+if package_recommendations:
+    print("Recommended package additions:")
+    for pkg in package_recommendations:
+        print(f"  - {pkg['package']}")
+        print(f"    Reason: {pkg['reason']}")
+        if pkg['current_version']:
+            print(f"    Current version: {pkg['current_version']}")
+        else:
+            print("    Not currently installed")
+```
+
+## Quality Metrics Examples
+
+### Quantitative Analysis
+
+**I'll provide concrete metrics:**
+
+```python
+def analyze_test_metrics(test_files):
+    """Analyze your test quality with concrete metrics"""
+
+    metrics = {
+        'test_count': len(test_files),
+        'assertion_count': sum(f.count('assert ') for f in test_files),
+        'fixture_usage': sum(f.count('@pytest.fixture') for f in test_files),
+        'parametrization': sum(f.count('@pytest.mark.parametrize') for f in test_files)
+    }
+
+    # Calculate quality score
+    naming_score = calculate_naming_quality(test_files)
+    coverage_score = estimate_coverage_quality(test_files)
+
+    print("Test Quality Analysis:")
+    print(f"  Test files: {metrics['test_count']}")
+    print(f"  Assertions: {metrics['assertion_count']}")
+    print(f"  Fixtures: {metrics['fixture_usage']}")
+    print(f"  Parametrized tests: {metrics['parametrization']}")
+    print(f"  Naming quality: {naming_score}/10")
+    print(f"  Coverage quality: {coverage_score}/10")
+
+    overall_score = (naming_score + coverage_score) / 2
+    if overall_score >= 8:
+        print("  Overall: ✅ Excellent test quality")
+    elif overall_score >= 6:
+        print("  Overall: ⚠️  Good test quality, minor improvements possible")
     else:
-        assert validate_email(input_value) is True
+        print("  Overall: 🔄 Test quality needs improvement")
 ```
 
----
-
-## Mocking and Patching
-
-### Patching External Dependencies
-```python
-# service.py
-import requests
-
-def get_user_data(user_id):
-    response = requests.get(f"https://api.example.com/users/{user_id}")
-    return response.json()
-
-# test_service.py
-import pytest
-from unittest.mock import patch
-
-class TestUserService:
-    @patch('requests.get')
-    def test_get_user_data_success(self, mock_get):
-        # Arrange
-        mock_response = Mock()
-        mock_response.json.return_value = {"id": 123, "name": "John"}
-        mock_get.return_value = mock_response
-
-        # Act
-        result = get_user_data(123)
-
-        # Assert
-        assert result["id"] == 123
-        assert result["name"] == "John"
-        mock_get.assert_called_once_with("https://api.example.com/users/123")
-
-    @patch('requests.get')
-    def test_get_user_data_api_error(self, mock_get):
-        # Arrange
-        mock_get.side_effect = requests.exceptions.RequestException("API Error")
-
-        # Act & Assert
-        with pytest.raises(requests.exceptions.RequestException):
-            get_user_data(123)
-```
-
-### Mocking Database Operations
-```python
-# database.py
-class UserRepository:
-    def __init__(self, session):
-        self.session = session
-
-    def get_user_by_id(self, user_id):
-        return self.session.query(User).filter(User.id == user_id).first()
-
-# test_database.py
-def test_get_user_by_id_found():
-    # Arrange
-    mock_session = Mock()
-    mock_user = User(id=1, name="John")
-    mock_session.query.return_value.filter.return_value.first.return_value = mock_user
-
-    repo = UserRepository(mock_session)
-
-    # Act
-    result = repo.get_user_by_id(1)
-
-    # Assert
-    assert result.id == 1
-    assert result.name == "John"
-
-def test_get_user_by_id_not_found():
-    # Arrange
-    mock_session = Mock()
-    mock_session.query.return_value.filter.return_value.first.return_value = None
-
-    repo = UserRepository(mock_session)
-
-    # Act
-    result = repo.get_user_by_id(999)
-
-    # Assert
-    assert result is None
-```
-
-### Using pytest-mock
-```python
-def test_with_pytest_mocker(mocker):
-    # mocker is automatically provided by pytest-mock
-    mock_func = mocker.patch('module.function_name')
-    mock_func.return_value = "mocked result"
-
-    result = module.function_name()
-    assert result == "mocked result"
-
-    # Verify the function was called
-    mock_func.assert_called_once()
-```
-
----
-
-## Async Testing
-
-### Basic Async Functions
-```python
-# async_service.py
-import asyncio
-import aiohttp
-
-async def fetch_user_data(user_id):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f"https://api.example.com/users/{user_id}") as response:
-            return await response.json()
-
-async def process_multiple_users(user_ids):
-    tasks = [fetch_user_data(user_id) for user_id in user_ids]
-    return await asyncio.gather(*tasks)
-
-# test_async_service.py
-import pytest
-from unittest.mock import AsyncMock
-
-@pytest.mark.asyncio
-async def test_fetch_user_data():
-    mock_response = AsyncMock()
-    mock_response.json.return_value = {"id": 123, "name": "John"}
-
-    mock_session = AsyncMock()
-    mock_session.get.return_value.__aenter__.return_value = mock_response
-
-    with patch('aiohttp.ClientSession', return_value=mock_session):
-        result = await fetch_user_data(123)
-        assert result["id"] == 123
-        assert result["name"] == "John"
-
-@pytest.mark.asyncio
-async def test_process_multiple_users():
-    # Mock the fetch_user_data function
-    with patch('async_service.fetch_user_data') as mock_fetch:
-        mock_fetch.side_effect = [
-            {"id": 1, "name": "John"},
-            {"id": 2, "name": "Jane"},
-        ]
-
-        results = await process_multiple_users([1, 2])
-
-        assert len(results) == 2
-        assert results[0]["name"] == "John"
-        assert results[1]["name"] == "Jane"
-
-        # Verify both users were fetched
-        assert mock_fetch.call_count == 2
-```
-
-### Async Fixtures
-```python
-@pytest.fixture
-async def async_test_client():
-    app = create_async_app(testing=True)
-    async with AsyncTestClient(app) as client:
-        yield client
-
-@pytest.mark.asyncio
-async def test_async_endpoint(async_test_client):
-    response = await async_test_client.post("/users", json={"name": "John"})
-    assert response.status_code == 201
-    data = await response.json()
-    assert data["name"] == "John"
-
-# Database async fixture
-@pytest.fixture
-async def async_db_session():
-    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-
-    async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-
-    async with async_session() as session:
-        yield session
-```
-
-### Testing Async Context Managers
-```python
-@pytest.mark.asyncio
-async def test_async_context_manager():
-    class AsyncResource:
-        async def __aenter__(self):
-            return self
-
-        async def __aexit__(self, exc_type, exc_val, exc_tb):
-            pass
-
-        async def process(self, data):
-            return f"processed: {data}"
-
-    async with AsyncResource() as resource:
-        result = await resource.process("test data")
-
-    assert result == "processed: test data"
-```
-
----
-
-## Database Testing
-
-### SQLAlchemy Testing
-```python
-# models.py
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-
-Base = declarative_base()
-
-class User(Base):
-    __tablename__ = 'users'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String)
-
-# test_models.py
-import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-@pytest.fixture
-def db_session():
-    # Create in-memory SQLite database
-    engine = create_engine("sqlite:///:memory:")
-    Base.metadata.create_all(engine)
-
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    yield session
-
-    session.close()
-
-def test_create_user(db_session):
-    user = User(name="John Doe", email="john@example.com")
-    db_session.add(user)
-    db_session.commit()
-
-    retrieved_user = db_session.query(User).filter(User.name == "John Doe").first()
-    assert retrieved_user is not None
-    assert retrieved_user.email == "john@example.com"
-    assert retrieved_user.id is not None
-```
-
-### Alembic Migration Testing
-```python
-@pytest.fixture
-def alembic_config():
-    return Config("alembic.ini")
-
-def test_migration_upgrade_downgrade(alembic_config):
-    # Get the current head revision
-    head = alembic.script.get_current_head()
-
-    # Downgrade to base
-    alembic.command.downgrade(alembic_config, "base")
-
-    # Upgrade back to head
-    alembic.command.upgrade(alembic_config, head)
-
-    # Verify we can create a session and work with the database
-    engine = create_engine("sqlite:///:memory:")
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    session.close()
-```
-
----
-
-## API Testing
-
-### Flask API Testing
-```python
-# app.py
-from flask import Flask, jsonify, request
-
-app = Flask(__name__)
-
-@app.route('/users', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    if not data.get('name'):
-        return jsonify({"error": "Name is required"}), 400
-
-    user_id = len(data) + 1  # Simplified user creation
-    return jsonify({"id": user_id, "name": data["name"]}), 201
-
-# test_flask_api.py
-import pytest
-from app import app
-
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-def test_create_user_success(client):
-    response = client.post('/users', json={'name': 'John Doe'})
-    assert response.status_code == 201
-    data = response.get_json()
-    assert data['name'] == 'John Doe'
-    assert 'id' in data
-
-def test_create_user_missing_name(client):
-    response = client.post('/users', json={'email': 'john@example.com'})
-    assert response.status_code == 400
-    data = response.get_json()
-    assert data['error'] == 'Name is required'
-
-def test_create_user_invalid_json(client):
-    response = client.post('/users', data='invalid json',
-                          content_type='application/json')
-    assert response.status_code == 400
-```
-
-### FastAPI Testing
-```python
-# main.py
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-
-app = FastAPI()
-
-class User(BaseModel):
-    name: str
-    email: str
-
-users = {}
-
-@app.post("/users/", response_model=User)
-async def create_user(user: User):
-    user_id = len(users) + 1
-    users[user_id] = user
-    return User(id=user_id, **user.dict())
-
-# test_fastapi.py
-import pytest
-from fastapi.testclient import TestClient
-from main import app
-
-client = TestClient(app)
-
-def test_create_user():
-    response = client.post("/users/", json={"name": "John", "email": "john@example.com"})
-    assert response.status_code == 200
-    data = response.json()
-    assert data["name"] == "John"
-    assert data["email"] == "john@example.com"
-    assert "id" in data
-
-def test_create_user_invalid_data():
-    response = client.post("/users/", json={"email": "john@example.com"})
-    assert response.status_code == 422  # Validation error
-```
-
----
-
-## File System Testing
-
-### File Operations
-```python
-# file_processor.py
-import os
-from pathlib import Path
-
-def process_file_content(file_path):
-    if not os.path.exists(file_path):
-        raise FileNotFoundError(f"File {file_path} not found")
-
-    with open(file_path, 'r') as file:
-        content = file.read()
-
-    return content.upper()
-
-# test_file_processor.py
-def test_process_file_content(tmp_path):
-    # Create a test file
-    test_file = tmp_path / "test.txt"
-    test_file.write_text("hello world")
-
-    result = process_file_content(str(test_file))
-    assert result == "HELLO WORLD"
-
-def test_process_file_content_not_found():
-    with pytest.raises(FileNotFoundError, match="File .* not found"):
-        process_file_content("non_existent_file.txt")
-
-def test_process_empty_file(tmp_path):
-    empty_file = tmp_path / "empty.txt"
-    empty_file.write_text("")
-
-    result = process_file_content(str(empty_file))
-    assert result == ""
-```
-
-### CSV Processing
-```python
-import pytest
-import csv
-
-def test_csv_processing(tmp_path):
-    # Create test CSV file
-    csv_file = tmp_path / "test.csv"
-    csv_content = [
-        ["Name", "Age", "City"],
-        ["John", "30", "New York"],
-        ["Jane", "25", "Los Angeles"]
-    ]
-
-    with open(csv_file, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(csv_content)
-
-    # Test CSV reading
-    with open(csv_file, 'r') as file:
-        reader = csv.DictReader(file)
-        rows = list(reader)
-
-    assert len(rows) == 2
-    assert rows[0]["Name"] == "John"
-    assert rows[1]["City"] == "Los Angeles"
-```
-
----
-
-## Performance Testing
-
-### Benchmark Testing
-```python
-import time
-import pytest
-
-def test_sort_performance():
-    # Test with large dataset
-    large_list = list(range(10000))[::-1]  # Reverse sorted list
-
-    start_time = time.time()
-    sorted_list = sorted(large_list)
-    duration = time.time() - start_time
-
-    assert duration < 1.0  # Should complete within 1 second
-    assert sorted_list == list(range(10000))
-
-# Using pytest-benchmark (requires pytest-benchmark package)
-def test_string_concatenation_performance(benchmark):
-    def concat_strings():
-        result = ""
-        for i in range(1000):
-            result += str(i)
-        return result
-
-    result = benchmark(concat_strings)
-    assert len(result) > 0
-```
-
-### Memory Usage Testing
-```python
-import pytest
-import gc
-import sys
-
-def test_memory_usage():
-    # Test memory usage of a function
-    def create_large_list():
-        return list(range(100000))
-
-    # Get baseline memory
-    gc.collect()
-    baseline = sys.getrefcount(None)  # Rough indicator
-
-    large_list = create_large_list()
-
-    # Verify the list exists
-    assert len(large_list) == 100000
-
-    # Clean up
-    del large_list
-    gc.collect()
-```
-
----
-
-## Error Handling Testing
-
-### Exception Handling
-```python
-# error_handler.py
-class CustomError(Exception):
-    pass
-
-def risky_operation(should_fail=False):
-    if should_fail:
-        raise CustomError("This operation failed")
-    return "success"
-
-# test_error_handling.py
-def test_successful_operation():
-    result = risky_operation(should_fail=False)
-    assert result == "success"
-
-def test_failed_operation():
-    with pytest.raises(CustomError, match="This operation failed"):
-        risky_operation(should_fail=True)
-
-def test_exception_attributes():
-    try:
-        risky_operation(should_fail=True)
-        assert False, "Should have raised CustomError"
-    except CustomError as e:
-        assert str(e) == "This operation failed"
-```
-
-### Context Manager Error Handling
-```python
-class FileHandler:
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self.file = None
-
-    def __enter__(self):
-        try:
-            self.file = open(self.file_path, 'r')
-            return self.file
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Could not find file: {self.file_path}")
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        if self.file:
-            self.file.close()
-        return False  # Don't suppress exceptions
-
-def test_context_manager_file_not_found():
-    with pytest.raises(FileNotFoundError, match="Could not find file"):
-        with FileHandler("non_existent.txt") as f:
-            pass
-
-def test_context_manager_proper_cleanup(tmp_path):
-    test_file = tmp_path / "test.txt"
-    test_file.write_text("test content")
-
-    with FileHandler(str(test_file)) as f:
-        content = f.read()
-        assert content == "test content"
-
-    # File should be closed after context
-    assert f.closed
-```
-
----
-
-## Property-Based Testing
-
-### Using Hypothesis
-```python
-from hypothesis import given, strategies as st
-
-@given(st.integers(min_value=0, max_value=100))
-def test_always_positive(x):
-    assert x >= 0
-
-@given(st.lists(st.integers()))
-def test_sort_is_idempotent(lst):
-    assert sorted(sorted(lst)) == sorted(lst)
-
-@given(st.text())
-def test_reverse_twice_returns_original(text):
-    assert text == text[::-1][::-1]
-
-@given(st.dictionaries(keys=st.text(), values=st.integers()))
-def test_dict_len_matches_items(dict_data):
-    assert len(dict_data) == len(dict_data.items())
-```
-
-### Advanced Property-Based Testing
-```python
-@given(st.lists(st.integers()))
-def test_sorted_list_properties(lst):
-    sorted_lst = sorted(lst)
-
-    # Length is preserved
-    assert len(sorted_lst) == len(lst)
-
-    # Elements are sorted
-    for i in range(len(sorted_lst) - 1):
-        assert sorted_lst[i] <= sorted_lst[i + 1]
-
-    # Contains same elements (multiset equality)
-    from collections import Counter
-    assert Counter(sorted_lst) == Counter(lst)
-
-@given(st.tuples(st.text(min_size=1), st.text(min_size=1)))
-def test_string_concat_properties(str1, str2):
-    result = str1 + str2
-
-    # Length property
-    assert len(result) == len(str1) + len(str2)
-
-    # Prefix/suffix properties
-    assert result.startswith(str1)
-    assert result.endswith(str2)
-```
-
-These examples cover most common testing scenarios in Python. Adapt them to your specific codebase and testing needs.
+## Usage Notes
+
+1. **Evidence First** - All recommendations based on actual project analysis
+2. **Backup Conscious** - Always backup before configuration changes
+3. **Incremental** - Small, safe improvements over wholesale changes
+4. **Context-Aware** - Adapt to your specific project and needs
+5. **Risk-Based** - Focus on areas that could cause real problems
+
+Remember: I'll analyze your actual project first and only suggest examples when there's concrete evidence of improvement opportunities. Your existing tests and configurations will be respected unless there are clear issues.

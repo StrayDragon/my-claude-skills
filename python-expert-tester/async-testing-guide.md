@@ -1,957 +1,318 @@
-# Async Testing in Python - Comprehensive Guide
+# Async Testing Guide - Dynamic and Current
 
-This guide focuses specifically on testing asynchronous Python code with pytest and related tools.
+This guide adapts to your project's async setup and uses the latest async testing patterns. I'll analyze your project before providing recommendations.
 
-## Table of Contents
-- [Setup and Configuration](#setup-and-configuration)
-- [Basic Async Testing](#basic-async-testing)
-- [Async Fixtures](#async-fixtures)
-- [Testing Async Context Managers](#testing-async-context-managers)
-- [Mocking Async Code](#mocking-async-code)
-- [Error Handling in Async Tests](#error-handling-in-async-tests)
-- [Performance Testing Async Code](#performance-testing-async-code)
-- [Integration Testing Async APIs](#integration-testing-async-apis)
-- [Common Async Testing Patterns](#common-async-testing-patterns)
-- [Advanced Async Testing Techniques](#advanced-async-testing-techniques)
+## Project Analysis
 
----
+I'll first examine your project to understand:
+```python
+# Check your async setup (I use Read/Glob tools)
+async_frameworks = detect_async_frameworks()  # asyncio, trio, curio
+http_clients = detect_http_clients()          # aiohttp, httpx
+web_frameworks = detect_web_frameworks()     # FastAPI, Starlette, aioflask
 
-## Setup and Configuration
+# Get latest async testing documentation
+latest_docs = fetch_latest_async_testing_info()
+```
 
-### Required Packages
+## Setup (Context-Aware)
+
+### Dynamic Package Installation
+I check your current setup before suggesting packages:
 
 ```bash
-pip install pytest pytest-asyncio pytest-mock aiohttp httpx
+# I'll first check what you have
+pip list | grep pytest  # Check existing pytest setup
+pip list | grep asyncio  # Check async packages
+
+# Then get latest compatible versions
+# (I'll fetch current versions from PyPI)
 ```
 
-### pytest-asyncio Configuration
+### Configuration Adaptation
 
+#### For `pyproject.toml` users:
+```toml
+[tool.pytest.ini_options]
+# I'll check your existing config and add async support
+asyncio_mode = "auto"  # I'll check if this is compatible with your setup
+```
+
+#### For `pytest.ini` users:
 ```ini
-# pytest.ini
 [tool:pytest]
-asyncio_mode = auto
-testpaths = tests
-markers =
-    asyncio: marks tests as async
-    slow: marks tests as slow (deselect with '-m "not slow"')
+# I'll add to your existing configuration
+asyncio_mode = "auto"
 ```
 
-### Event Loop Policies (for Python 3.10+)
+## Core Async Testing Patterns (Current Best Practices)
+
+### Basic Async Tests
+I'll provide patterns based on your async framework:
 
 ```python
-# tests/conftest.py
-import asyncio
-import pytest
+# Standard asyncio (I'll check if this matches your setup)
+@pytest.mark.asyncio
+async def test_async_function():
+    result = await async_operation()
+    assert result.success is True
 
-@pytest.fixture(scope="session")
-def event_loop_policy():
-    """Set up event loop policy for async tests."""
-    if hasattr(asyncio, 'WindowsProactorEventLoopPolicy'):
-        # Windows specific policy
-        asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+# Trio (if I detect trio usage)
+@pytest.mark.trio
+async def test_trio_function():
+    result = await trio_async_operation()
+    assert result.success is True
+```
+
+### Async Fixtures (Framework-Adaptive)
+
+```python
+@pytest.fixture
+async def async_client():
+    # I'll detect your HTTP client framework
+    if has_aiohttp():
+        async with aiohttp.ClientSession() as client:
+            yield client
+    elif has_httpx():
+        async with httpx.AsyncClient() as client:
+            yield client
     else:
-        # Unix systems
-        asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
+        # Suggest installing appropriate async HTTP client
+        recommend_async_http_client()
+
+@pytest.mark.asyncio
+async def test_with_async_fixture(async_client):
+    response = await async_client.get("/api")
+    assert response.status_code == 200
 ```
 
----
-
-## Basic Async Testing
-
-### Simple Async Function Tests
+### Database Async Testing (ORM-Specific)
 
 ```python
-# async_service.py
-import asyncio
-from typing import List
-
-async def fetch_user_data(user_id: int) -> dict:
-    """Simulate async user data fetch."""
-    await asyncio.sleep(0.1)  # Simulate network delay
-    return {"id": user_id, "name": f"User {user_id}"}
-
-async def fetch_multiple_users(user_ids: List[int]) -> List[dict]:
-    """Fetch multiple users concurrently."""
-    tasks = [fetch_user_data(user_id) for user_id in user_ids]
-    return await asyncio.gather(*tasks)
-
-# test_async_service.py
-import pytest
-from unittest.mock import AsyncMock, patch
-
-@pytest.mark.asyncio
-async def test_fetch_user_data():
-    """Test basic async function."""
-    user_id = 123
-    result = await fetch_user_data(user_id)
-
-    assert result["id"] == user_id
-    assert result["name"] == f"User {user_id}"
-
-@pytest.mark.asyncio
-async def test_fetch_multiple_users():
-    """Test concurrent async operations."""
-    user_ids = [1, 2, 3]
-    results = await fetch_multiple_users(user_ids)
-
-    assert len(results) == 3
-    for i, result in enumerate(results):
-        assert result["id"] == user_ids[i]
-        assert result["name"] == f"User {user_ids[i]}"
-
-@pytest.mark.asyncio
-async def test_async_function_with_exception():
-    """Test async function that raises exception."""
-
-    async def failing_function():
-        await asyncio.sleep(0.1)
-        raise ValueError("Async error occurred")
-
-    with pytest.raises(ValueError, match="Async error occurred"):
-        await failing_function()
-```
-
-### Timeout Testing
-
-```python
-import pytest
-from asyncio import TimeoutError
-
-@pytest.mark.asyncio
-async def test_async_operation_timeout():
-    """Test timeout handling in async operations."""
-
-    async def slow_operation():
-        await asyncio.sleep(2.0)
-        return "completed"
-
-    with pytest.raises(asyncio.TimeoutError):
-        await asyncio.wait_for(slow_operation(), timeout=1.0)
-
-@pytest.mark.asyncio
-async def test_async_operation_within_timeout():
-    """Test operation completing within timeout."""
-
-    async def fast_operation():
-        await asyncio.sleep(0.1)
-        return "completed"
-
-    result = await asyncio.wait_for(fast_operation(), timeout=1.0)
-    assert result == "completed"
-```
-
----
-
-## Async Fixtures
-
-### Basic Async Fixtures
-
-```python
-# tests/conftest.py
-import pytest
-import asyncio
-from typing import AsyncGenerator
-
 @pytest.fixture
-async def async_resource() -> AsyncGenerator[str, None]:
-    """Async fixture that provides and cleans up a resource."""
-    resource = "async_resource"
+async def async_db_session():
+    # I'll detect your ORM and provide appropriate setup
+    if has_sqlalchemy_async():
+        # SQLAlchemy async setup
+        engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
 
-    # Setup
-    print(f"Setting up {resource}")
+        async_session = async_sessionmaker(engine, class_=AsyncSession)
+        async with async_session() as session:
+            yield session
 
-    yield resource
+    elif has_django_async():
+        # Django async database setup
+        # I'll check Django version and provide compatible setup
+        pass
 
-    # Cleanup
-    print(f"Cleaning up {resource}")
-
-@pytest.fixture(scope="session")
-async def shared_async_resource() -> AsyncGenerator[dict, None]:
-    """Session-scoped async fixture."""
-    shared_data = {"initialized": True}
-
-    # Expensive setup that should run once per session
-    await asyncio.sleep(0.1)  # Simulate setup time
-    shared_data["setup_time"] = asyncio.get_event_loop().time()
-
-    yield shared_data
-
-    # Cleanup
-    print("Cleaning up shared async resource")
-
-# Using async fixtures in tests
-@pytest.mark.asyncio
-async def test_with_async_fixture(async_resource):
-    """Test using async fixture."""
-    assert async_resource == "async_resource"
-    await asyncio.sleep(0.01)  # Simulate test work
-
-@pytest.mark.asyncio
-async def test_with_shared_fixture(shared_async_resource):
-    """Test using session-scoped async fixture."""
-    assert shared_async_resource["initialized"] is True
-    assert "setup_time" in shared_async_resource
+    elif has_tortoise_orm():
+        # Tortoise ORM async setup
+        await Tortoise.init(db_url="sqlite://:memory:", modules={"models": ["models"]})
+        await Tortoise.generate_schemas()
+        yield
+        await Tortoise.close_connections()
 ```
 
-### Database Async Fixtures
+## Framework-Specific Examples
+
+### FastAPI Testing (Current Patterns)
 
 ```python
-# tests/conftest.py
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.orm import declarative_base
-
-Base = declarative_base()
-
+# I'll check your FastAPI version and provide current examples
 @pytest.fixture
-async def async_db_session() -> AsyncGenerator[AsyncSession, None]:
-    """Provide async database session for tests."""
-    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+async def fastapi_client():
+    # Check if you have FastAPI and get latest testing patterns
+    fastapi_docs = get_library_docs("/tiangolo/fastapi", topic="testing")
 
-    # Create tables
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    from fastapi.testclient import TestClient
+    return TestClient(app)
 
-    # Create session
-    async_session = async_sessionmaker(
-        engine, class_=AsyncSession, expire_on_commit=False
-    )
-
-    async with async_session() as session:
-        yield session
-
-    await engine.dispose()
-
-# Using async database fixture
 @pytest.mark.asyncio
-async def test_async_database_operations(async_db_session):
-    """Test async database operations."""
-    from models import User  # Your async model
-
-    user = User(name="Test User", email="test@example.com")
-    async_db_session.add(user)
-    await async_db_session.commit()
-
-    # Retrieve user
-    result = await async_db_session.get(User, user.id)
-    assert result.name == "Test User"
+async def test_fastapi_endpoint():
+    async with AsyncClient(app=app, base_url="http://test") as client:
+        response = await client.post("/users", json={"name": "John"})
+        assert response.status_code == 200
 ```
 
-### HTTP Client Async Fixtures
-
-```python
-# tests/conftest.py
-import httpx
-from fastapi.testclient import TestClient
-
-@pytest.fixture
-async def async_http_client() -> AsyncGenerator[httpx.AsyncClient, None]:
-    """Provide async HTTP client for testing APIs."""
-    async with httpx.AsyncClient(app=app, base_url="http://test") as client:
-        yield client
-
-# Usage in tests
-@pytest.mark.asyncio
-async def test_async_api_endpoint(async_http_client):
-    """Test async API endpoint."""
-    response = await async_http_client.post("/users", json={"name": "John"})
-    assert response.status_code == 201
-
-    data = response.json()
-    assert data["name"] == "John"
-```
-
----
-
-## Testing Async Context Managers
-
-### Basic Async Context Manager Testing
-
-```python
-# async_context.py
-import asyncio
-from typing import AsyncGenerator
-
-class AsyncResource:
-    def __init__(self, name: str):
-        self.name = name
-        self.initialized = False
-
-    async def __aenter__(self) -> "AsyncResource":
-        await asyncio.sleep(0.1)  # Simulate async initialization
-        self.initialized = True
-        return self
-
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await asyncio.sleep(0.1)  # Simulate async cleanup
-        self.initialized = False
-        return False  # Don't suppress exceptions
-
-    async def process(self, data: str) -> str:
-        if not self.initialized:
-            raise RuntimeError("Resource not initialized")
-        return f"processed: {data}"
-
-# test_async_context.py
-@pytest.mark.asyncio
-async def test_async_context_manager():
-    """Test basic async context manager."""
-    resource = AsyncResource("test")
-
-    async with resource as r:
-        assert r.initialized is True
-        assert r.name == "test"
-
-        result = await r.process("test data")
-        assert result == "processed: test data"
-
-    # Resource should be cleaned up after context
-    assert resource.initialized is False
-
-@pytest.mark.asyncio
-async def test_async_context_manager_with_exception():
-    """Test async context manager with exception."""
-    resource = AsyncResource("test")
-
-    with pytest.raises(ValueError):
-        async with resource as r:
-            assert r.initialized is True
-            raise ValueError("Test exception")
-
-    # Cleanup should still happen
-    assert resource.initialized is False
-```
-
-### Nested Async Context Managers
+### Starlette Testing
 
 ```python
 @pytest.mark.asyncio
-async def test_nested_async_context_managers():
-    """Test nested async context managers."""
-
-    async with AsyncResource("outer") as outer:
-        assert outer.initialized is True
-
-        async with AsyncResource("inner") as inner:
-            assert inner.initialized is True
-            assert outer.initialized is True  # Still active
-
-            # Both resources can be used
-            outer_result = await outer.process("outer data")
-            inner_result = await inner.process("inner data")
-
-            assert outer_result == "processed: outer data"
-            assert inner_result == "processed: inner data"
-
-        # Inner resource cleaned up, outer still active
-        assert inner.initialized is False
-        assert outer.initialized is True
-
-    # Both cleaned up
-    assert outer.initialized is False
+async def test_starlette_endpoint():
+    # I'll detect if you're using Starlette directly
+    from httpx import AsyncClient
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        response = await ac.get("/items/1")
+        assert response.status_code == 200
 ```
 
----
-
-## Mocking Async Code
-
-### Mocking Async Functions
-
-```python
-import pytest
-from unittest.mock import AsyncMock, patch
-
-@pytest.mark.asyncio
-async def test_mock_async_function():
-    """Test mocking of async functions."""
-
-    # Create async mock
-    mock_async_func = AsyncMock(return_value="mocked result")
-
-    # Use the mock
-    result = await mock_async_func("arg1", kwarg1="value1")
-
-    assert result == "mocked result"
-    mock_async_func.assert_called_once_with("arg1", kwarg1="value1")
-
-@pytest.mark.asyncio
-async def test_mock_async_generator():
-    """Test mocking of async generators."""
-
-    # Mock async generator
-    mock_gen = AsyncMock()
-    mock_gen.__aiter__.return_value = iter(["item1", "item2", "item3"])
-
-    # Use the mock generator
-    items = []
-    async for item in mock_gen:
-        items.append(item)
-
-    assert items == ["item1", "item2", "item3"]
-
-@pytest.mark.asyncio
-async def test_patch_async_function():
-    """Test patching async functions."""
-
-    async def real_async_func(x):
-        await asyncio.sleep(0.1)
-        return x * 2
-
-    # Patch the function
-    with patch(__name__ + '.real_async_func', return_value=999) as mock_func:
-        result = await real_async_func(5)
-        assert result == 999
-        mock_func.assert_called_once_with(5)
-
-    # Original function should work after patch
-    result = await real_async_func(5)
-    assert result == 10
-```
-
-### Mocking Async Context Managers
+### Aiohttp Testing
 
 ```python
 @pytest.mark.asyncio
-async def test_mock_async_context_manager():
-    """Test mocking of async context managers."""
+async def test_aiohttp_client():
+    # I'll check if you're using aiohttp and provide current patterns
+    from aiohttp.test import AioHTTPTestCase, unittest_run_loop
+    from aiohttp import web
 
-    # Create mock async context manager
-    mock_context = AsyncMock()
-    mock_context.__aenter__.return_value = "mocked resource"
-    mock_context.__aexit__.return_value = None
+    async def handler(request):
+        return web.json_response({"status": "ok"})
 
-    # Use the mock
-    async with mock_context as resource:
-        assert resource == "mocked resource"
+    app = web.Application()
+    app.router.add_get("/test", handler)
 
-    # Verify the context manager methods were called
-    mock_context.__aenter__.assert_called_once()
-    mock_context.__aexit__.assert_called_once()
+    # Testing pattern based on your aiohttp version
+    async with TestClient(app) as tc:
+        resp = await tc.get("/test")
+        assert resp.status == 200
+        data = await resp.json()
+        assert data["status"] == "ok"
 ```
 
-### Complex Mocking Scenarios
+## Mock Async Testing (Current Patterns)
+
+### AsyncMock (Latest Patterns)
 
 ```python
 @pytest.mark.asyncio
-async def test_mock_with_side_effects():
-    """Test async mock with side effects."""
+async def test_async_mock(mocker):
+    # I'll check your Python version and provide compatible patterns
+    # AsyncMock behavior changed in Python 3.8+
 
-    async def async_side_effect(*args, **kwargs):
-        await asyncio.sleep(0.01)  # Simulate async work
-        if args[0] == "error":
-            raise ValueError("Async error")
-        return f"processed: {args[0]}"
+    mock_async_func = mocker.AsyncMock(return_value={"data": "test"})
 
-    mock_func = AsyncMock(side_effect=async_side_effect)
+    result = await process_async_data(mock_async_func)
+    mock_async_func.assert_awaited_once()
+    assert result == {"processed": "test"}
 
-    # Test normal case
-    result = await mock_func("test")
-    assert result == "processed: test"
-
-    # Test error case
-    with pytest.raises(ValueError, match="Async error"):
-        await mock_func("error")
-
+# For async context managers
 @pytest.mark.asyncio
-async def test_mock_streaming_response():
-    """Test mocking streaming async responses."""
+async def test_async_context_mock(mocker):
+    mock_cm = mocker.AsyncMock()
+    mock_cm.__aenter__.return_value = MockResource()
 
-    # Mock streaming response
-    mock_stream = AsyncMock()
-    mock_stream.__aiter__.return_value = iter([
-        b'{"data": "chunk1"}',
-        b'{"data": "chunk2"}',
-        b'{"data": "chunk3"}'
-    ])
-
-    # Process stream
-    chunks = []
-    async for chunk in mock_stream:
-        chunks.append(chunk)
-
-    assert len(chunks) == 3
-    assert chunks[0] == b'{"data": "chunk1"}'
+    async with mock_cm as resource:
+        result = await resource.operation()
+        assert result is not None
 ```
 
----
+### Real-time Mock Documentation
 
-## Error Handling in Async Tests
+I fetch the latest async mocking patterns:
+```python
+# Get current unittest.mock patterns for async
+async_mock_docs = get_library_docs("/python/cpython", topic="unittest.mock AsyncMock")
 
-### Testing Async Exceptions
+# Get latest pytest-mock async patterns
+pytest_mock_docs = get_library_docs("/pytest-dev/pytest-mock", topic="async")
+```
+
+## Performance Testing (Adaptive)
+
+### Async Performance Testing
+
+```python
+@pytest.mark.asyncio
+async def test_concurrent_performance():
+    # I'll check your performance testing needs
+    if needs_benchmarking():
+        # Suggest pytest-benchmark with async support
+        recommend_async_benchmarking()
+
+    # Performance testing for async code
+    start_time = time.perf_counter()
+
+    tasks = [async_operation() for _ in range(10)]
+    results = await asyncio.gather(*tasks)
+
+    duration = time.perf_counter() - start_time
+    assert duration < 1.0  # Adjust based on your requirements
+    assert all(result.success for result in results)
+```
+
+## Error Handling (Current Best Practices)
+
+### Async Exception Testing
 
 ```python
 @pytest.mark.asyncio
 async def test_async_exception_handling():
-    """Test exception handling in async code."""
-
-    async def failing_async_operation():
-        await asyncio.sleep(0.1)
-        raise ValueError("Async operation failed")
-
-    # Test that exception is raised
-    with pytest.raises(ValueError, match="Async operation failed"):
-        await failing_async_operation()
-
-@pytest.mark.asyncio
-async def test_async_exception_suppression():
-    """Test exception suppression in context manager."""
-
-    class SuppressingAsyncContext:
-        async def __aenter__(self):
-            return self
-
-        async def __aexit__(self, exc_type, exc_val, exc_tb):
-            if isinstance(exc_val, ValueError):
-                return True  # Suppress ValueError
-            return False  # Don't suppress other exceptions
-
-    # Exception should be suppressed
-    async with SuppressingAsyncContext():
-        raise ValueError("This should be suppressed")
-
-    # Other exceptions should not be suppressed
-    with pytest.raises(RuntimeError):
-        async with SuppressingAsyncContext():
-            raise RuntimeError("This should not be suppressed")
-
-@pytest.mark.asyncio
-async def test_async_timeout_exception():
-    """Test timeout exception handling."""
-
-    async def slow_operation():
-        await asyncio.sleep(2.0)
-        return "completed"
-
+    # Current patterns for async exception testing
     with pytest.raises(asyncio.TimeoutError):
         await asyncio.wait_for(slow_operation(), timeout=1.0)
+
+@pytest.mark.asyncio
+async def test_async_exception_groups():
+    # Python 3.11+ exception groups
+    if python_version >= "3.11":
+        async def failing_operations():
+            async with TaskGroup() as tg:
+                tg.create_task(fast_failing_task())
+                tg.create_task(slow_failing_task())
+
+        with pytest.raises(ExceptionGroup):
+            await failing_operations()
 ```
 
-### Async Cleanup on Exception
+## Current Best Practices
+
+### I use real-time sources to stay current:
 
 ```python
-@pytest.mark.asyncio
-async def test_cleanup_on_exception():
-    """Test that cleanup happens even when exception occurs."""
-    cleanup_called = False
+# Get latest asyncio testing patterns
+asyncio_docs = get_library_docs("/python/cpython", topic="asyncio testing")
 
-    class AsyncResourceWithCleanup:
-        async def __aenter__(self):
-            return self
+# Check current pytest-asyncio documentation
+pytest_asyncio_docs = get_library_docs("/pytest-dev/pytest-asyncio")
 
-        async def __aexit__(self, exc_type, exc_val, exc_tb):
-            nonlocal cleanup_called
-            cleanup_called = True
-            await asyncio.sleep(0.01)  # Simulate cleanup work
-            return False  # Don't suppress exception
-
-        async def do_work(self):
-            raise ValueError("Work failed")
-
-    resource = AsyncResourceWithCleanup()
-
-    with pytest.raises(ValueError):
-        async with resource:
-            await resource.do_work()
-
-    # Verify cleanup was called
-    assert cleanup_called is True
+# Get latest async framework testing guides
+if has_fastapi():
+    fastapi_testing = get_library_docs("/tiangolo/fastapi", topic="testing")
 ```
 
----
-
-## Performance Testing Async Code
-
-### Concurrency Testing
+### Version-Specific Guidance
 
 ```python
-@pytest.mark.asyncio
-async def test_concurrent_async_operations():
-    """Test performance of concurrent async operations."""
+# I'll check your Python version and provide appropriate patterns
+python_version = get_python_version()
 
-    async def simulated_io_task(task_id: int, delay: float = 0.1):
-        await asyncio.sleep(delay)
-        return f"task_{task_id}_completed"
-
-    # Test sequential execution
-    start_time = asyncio.get_event_loop().time()
-    sequential_results = []
-    for i in range(5):
-        result = await simulated_io_task(i)
-        sequential_results.append(result)
-    sequential_time = asyncio.get_event_loop().time() - start_time
-
-    # Test concurrent execution
-    start_time = asyncio.get_event_loop().time()
-    concurrent_tasks = [simulated_io_task(i) for i in range(5)]
-    concurrent_results = await asyncio.gather(*concurrent_tasks)
-    concurrent_time = asyncio.get_event_loop().time() - start_time
-
-    # Verify results are the same
-    assert sorted(sequential_results) == sorted(concurrent_results)
-
-    # Concurrent should be significantly faster
-    assert concurrent_time < sequential_time * 0.8  # At least 20% faster
-
-@pytest.mark.asyncio
-async def test_async_semaphore_limiter():
-    """Test rate limiting with semaphore."""
-
-    semaphore = asyncio.Semaphore(2)  # Max 2 concurrent operations
-    concurrent_count = 0
-    max_concurrent = 0
-
-    async def limited_operation():
-        nonlocal concurrent_count, max_concurrent
-        async with semaphore:
-            concurrent_count += 1
-            max_concurrent = max(max_concurrent, concurrent_count)
-            await asyncio.sleep(0.1)
-            concurrent_count -= 1
-
-    # Start 5 operations
-    tasks = [limited_operation() for _ in range(5)]
-    await asyncio.gather(*tasks)
-
-    # Verify concurrency was limited
-    assert max_concurrent <= 2
+if python_version >= "3.11":
+    # Suggest TaskGroup and exception groups
+    recommend_modern_async_patterns()
+elif python_version >= "3.7":
+    # Use create_task and gather patterns
+    recommend_standard_async_patterns()
+else:
+    # Suggest upgrading Python or using legacy patterns
+    suggest_upgrade_paths()
 ```
 
-### Async Memory Testing
+## Troubleshooting (Dynamic)
+
+### Common Issues (Current Solutions)
+
+I check the latest documentation for solutions:
 
 ```python
-@pytest.mark.asyncio
-async def test_async_memory_usage():
-    """Test memory usage of async operations."""
-    import gc
-    import sys
+# Get current pytest-asyncio troubleshooting
+troubleshooting_docs = fetch_latest_troubleshooting()
 
-    # Memory usage before
-    gc.collect()
-    initial_objects = len(gc.get_objects())
+# Check common async testing issues in your framework
+if has_fastapi():
+    fastapi_issues = get_fastapi_testing_issues()
 
-    # Create many async tasks
-    async def memory_intensive_task():
-        data = list(range(1000))  # Allocate memory
-        await asyncio.sleep(0.01)
-        return len(data)
-
-    tasks = [memory_intensive_task() for _ in range(100)]
-    results = await asyncio.gather(*tasks)
-
-    # Verify results
-    assert len(results) == 100
-    assert all(r == 1000 for r in results)
-
-    # Force garbage collection
-    del tasks, results
-    gc.collect()
-
-    # Memory usage after cleanup
-    final_objects = len(gc.get_objects())
-
-    # Should not have significant memory leak (allow some tolerance)
-    assert final_objects - initial_objects < 1000
+if has_aiohttp():
+    aiohttp_issues = get_aiohttp_testing_issues()
 ```
 
----
-
-## Integration Testing Async APIs
-
-### FastAPI Async Testing
-
-```python
-# test_async_fastapi.py
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
-import httpx
-
-app = FastAPI()
-
-@app.post("/users")
-async def create_user(user_data: dict):
-    await asyncio.sleep(0.1)  # Simulate async work
-    return {"id": 1, "name": user_data["name"], "status": "created"}
-
-@pytest.mark.asyncio
-async def test_fastapi_async_endpoint():
-    """Test FastAPI async endpoint."""
-
-    async with httpx.AsyncClient(app=app, base_url="http://test") as client:
-        response = await client.post("/users", json={"name": "John"})
-
-        assert response.status_code == 200
-        data = response.json()
-        assert data["name"] == "John"
-        assert data["status"] == "created"
-```
-
-### WebSocket Testing
-
-```python
-# test_websocket.py
-import pytest
-import asyncio
-from fastapi import FastAPI, WebSocket
-from fastapi.testclient import TestClient
-
-app = FastAPI()
-
-@app.websocket("/ws")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        await websocket.send_text(f"Echo: {data}")
-
-@pytest.mark.asyncio
-async def test_websocket_communication():
-    """Test WebSocket communication."""
-
-    async with httpx.AsyncClient(app=app, base_url="http://test") as client:
-        # Note: WebSocket testing typically requires specialized WebSocket client
-        # This is a simplified example
-        with pytest.raises(NotImplementedError):
-            # In practice, you'd use a WebSocket client library
-            pass
-```
-
----
-
-## Common Async Testing Patterns
-
-### Retry Logic Testing
-
-```python
-@pytest.mark.asyncio
-async def test_async_retry_logic():
-    """Test retry logic with async operations."""
-
-    attempt_count = 0
-
-    async def flaky_operation():
-        nonlocal attempt_count
-        attempt_count += 1
-        await asyncio.sleep(0.01)
-
-        if attempt_count < 3:
-            raise ConnectionError("Temporary failure")
-
-        return "success"
-
-    # Implement retry logic
-    async def retry_operation(max_attempts=3):
-        for attempt in range(max_attempts):
-            try:
-                return await flaky_operation()
-            except ConnectionError as e:
-                if attempt == max_attempts - 1:
-                    raise
-                await asyncio.sleep(0.01)
-
-    result = await retry_operation()
-    assert result == "success"
-    assert attempt_count == 3  # Should have attempted 3 times
-```
-
-### Async Iterator Testing
-
-```python
-@pytest.mark.asyncio
-async def test_async_iterator():
-    """Test async iterator functionality."""
-
-    async def async_data_producer():
-        for i in range(5):
-            await asyncio.sleep(0.01)
-            yield i
-
-    # Collect all items from async iterator
-    items = []
-    async for item in async_data_producer():
-        items.append(item)
-
-    assert items == [0, 1, 2, 3, 4]
-
-@pytest.mark.asyncio
-async def test_async_iterator_with_exception():
-    """Test async iterator with exception."""
-
-    async def failing_async_iterator():
-        for i in range(3):
-            await asyncio.sleep(0.01)
-            if i == 2:
-                raise ValueError("Iterator error")
-            yield i
-
-    items = []
-    with pytest.raises(ValueError, match="Iterator error"):
-        async for item in failing_async_iterator():
-            items.append(item)
-
-    # Should have collected items before the error
-    assert items == [0, 1]
-```
-
-### Async Queue Testing
-
-```python
-@pytest.mark.asyncio
-async def test_async_queue_operations():
-    """Test async queue operations."""
-
-    queue = asyncio.Queue()
-
-    async def producer():
-        for i in range(5):
-            await queue.put(i)
-            await asyncio.sleep(0.01)
-
-    async def consumer():
-        items = []
-        while True:
-            try:
-                item = await asyncio.wait_for(queue.get(), timeout=0.1)
-                items.append(item)
-                queue.task_done()
-            except asyncio.TimeoutError:
-                break
-        return items
-
-    # Run producer and consumer concurrently
-    producer_task = asyncio.create_task(producer())
-    consumer_task = asyncio.create_task(consumer())
-
-    await producer_task
-    items = await consumer_task
-
-    assert items == [0, 1, 2, 3, 4]
-    assert queue.empty()
-```
-
----
-
-## Advanced Async Testing Techniques
-
-### Async Event Testing
-
-```python
-@pytest.mark.asyncio
-async def test_async_event_coordination():
-    """Test coordination using async events."""
-
-    event = asyncio.Event()
-    results = []
-
-    async def waiter(name: str):
-        await event.wait()
-        results.append(f"{name} proceeded")
-
-    async def setter():
-        await asyncio.sleep(0.1)
-        event.set()
-        results.append("Event set")
-
-    # Start waiters
-    waiter_tasks = [
-        asyncio.create_task(waiter(f"Waiter{i}"))
-        for i in range(3)
-    ]
-
-    # Start setter
-    setter_task = asyncio.create_task(setter())
-
-    # Wait for all tasks
-    await asyncio.gather(*waiter_tasks, setter_task)
-
-    assert "Event set" in results
-    assert len(results) == 4  # 3 waiters + 1 setter
-
-@pytest.mark.asyncio
-async def test_async_condition_variable():
-    """Test async condition variable for producer-consumer."""
-
-    condition = asyncio.Condition()
-    buffer = []
-    buffer_size = 3
-
-    async def producer():
-        async with condition:
-            for i in range(5):
-                while len(buffer) >= buffer_size:
-                    await condition.wait()
-                buffer.append(i)
-                condition.notify()
-                await asyncio.sleep(0.01)
-
-    async def consumer():
-        consumed = []
-        while len(consumed) < 5:
-            async with condition:
-                while not buffer:
-                    await condition.wait()
-                item = buffer.pop(0)
-                consumed.append(item)
-                condition.notify()
-            await asyncio.sleep(0.02)
-        return consumed
-
-    producer_task = asyncio.create_task(producer())
-    consumer_task = asyncio.create_task(consumer())
-
-    await producer_task
-    consumed = await consumer_task
-
-    assert consumed == [0, 1, 2, 3, 4]
-```
-
-### Async Pool Testing
-
-```python
-@pytest.mark.asyncio
-async def test_async_connection_pool():
-    """Test async connection pool behavior."""
-
-    class AsyncConnectionPool:
-        def __init__(self, max_connections: int):
-            self.semaphore = asyncio.Semaphore(max_connections)
-            self.active_connections = 0
-
-        async def get_connection(self):
-            await self.semaphore.acquire()
-            self.active_connections += 1
-            return Connection(self)
-
-        def release_connection(self):
-            self.active_connections -= 1
-            self.semaphore.release()
-
-    class Connection:
-        def __init__(self, pool: AsyncConnectionPool):
-            self.pool = pool
-
-        async def execute(self, query: str):
-            await asyncio.sleep(0.01)
-            return f"Result of: {query}"
-
-        async def __aenter__(self):
-            return self
-
-        async def __aexit__(self, exc_type, exc_val, exc_tb):
-            self.pool.release_connection()
-
-    pool = AsyncConnectionPool(max_connections=2)
-
-    async def use_connection(query_id: int):
-        async with await pool.get_connection() as conn:
-            result = await conn.execute(f"query_{query_id}")
-            return result
-
-    # Use connections concurrently
-    tasks = [use_connection(i) for i in range(5)]
-    results = await asyncio.gather(*tasks)
-
-    assert len(results) == 5
-    assert all("Result of: query_" in result for result in results)
-    assert pool.active_connections == 0  # All connections released
-```
-
-This comprehensive guide covers most async testing scenarios you'll encounter. Remember to always configure `pytest-asyncio` properly and use appropriate mocking strategies for async code.
+## Key Principles
+
+1. **Adapt to your existing setup** - I'll analyze your current async framework and tools
+2. **Use real-time information** - I fetch the latest async testing documentation
+3. **Version-specific guidance** - I check your Python and package versions
+4. **Framework-aware patterns** - I provide examples specific to your web framework
+5. **Progressive enhancement** - I build on your existing async setup
+
+Remember: I'll always analyze your current async setup before providing recommendations and use real-time tools to ensure you get the most current, compatible async testing patterns for your specific situation.
