@@ -13,3 +13,12 @@
 [submodule "uv-expert/source/uv"]
 	path = uv-expert/source/uv
 	url = git@github.com:astral-sh/uv.git
+[submodule "rust-cli-tui-developer/source/clap"]
+	path = rust-cli-tui-developer/source/clap
+	url = git@github.com:clap-rs/clap.git
+[submodule "rust-cli-tui-developer/source/inquire"]
+	path = rust-cli-tui-developer/source/inquire
+	url = git@github.com:mikaelmello/inquire.git
+[submodule "rust-cli-tui-developer/source/ratatui"]
+	path = rust-cli-tui-developer/source/ratatui
+	url = git@github.com:ratatui/ratatui.git
