@@ -38,6 +38,7 @@ curl -I https://github.com
 /plugin install uv-expert@straydragon-claude-skills
 /plugin install lib-slint-expert@straydragon-claude-skills
 /plugin install vscode-extension-builder@straydragon-claude-skills
+/plugin install mermaid-expert@straydragon-claude-skills
 ```
 
 **注意**：使用此方法后，如果发现某些技能功能不完整，请改用方法二重新安装。
@@ -69,6 +70,7 @@ git submodule update --init --recursive
 /plugin install uv-expert@straydragon-claude-skills
 /plugin install lib-slint-expert@straydragon-claude-skills
 /plugin install vscode-extension-builder@straydragon-claude-skills
+/plugin install mermaid-expert@straydragon-claude-skills
 ```
 
 **网络问题排查**：如果 `git submodule update` 失败，检查网络连接或尝试使用代理。
@@ -97,6 +99,10 @@ git submodule update --init --recursive
 
 # VSCode 扩展
 "我想开发一个 VSCode 扩展"
+
+# Mermaid 图表
+"帮我创建一个流程图来展示这个系统架构"
+"如何用 Mermaid 绘制时序图"
 ```
 
 ## 技能详情
@@ -109,6 +115,7 @@ git submodule update --init --recursive
 | **uv-expert** | uv Python 包和项目管理专家 | Git Submodule | 需完整安装 |
 | **lib-slint-expert** | Slint GUI 开发专家 | Git Submodule | 需完整安装 |
 | **vscode-extension-builder** | VSCode 扩展开发专家 | Git Submodule | 需完整安装 |
+| **mermaid-expert** | Mermaid.js 图表专家，支持流程图、时序图等 | 自包含 | 两种方法均可 |
 
 ---
 

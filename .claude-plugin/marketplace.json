@@ -2,7 +2,7 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "straydragon-claude-skills",
   "version": "1.0.0",
-  "description": "A curated collection of practical Claude Skills for enhancing productivity across Python development, GUI programming, testing, logging, package management, and VSCode extension development",
+  "description": "A curated collection of practical Claude Skills for enhancing productivity across Python development, GUI programming, testing, logging, package management, VSCode extension development, and diagram visualization",
   "owner": {
     "name": "StrayDragon",
     "email": "straydragonl@foxmail.com",
@@ -46,6 +46,12 @@
       "description": "Comprehensive VSCode extension development expert that guides you through creating extensions using the official Yeoman generator tool with complete API reference.",
       "source": "./vscode-extension-builder",
       "category": "development"
+    },
+    {
+      "name": "mermaid-expert",
+      "description": "Expert guidance for Mermaid.js diagramming library. Create flowcharts, sequence diagrams, class diagrams, state diagrams, Gantt charts, git graphs, and block diagrams.",
+      "source": "./mermaid_expert",
+      "category": "documentation"
     }
   ]
 }
