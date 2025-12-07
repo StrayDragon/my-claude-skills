@@ -58,6 +58,47 @@ Most modern platforms (GitHub, GitLab, Notion) support Mermaid natively using co
 npm install mermaid
 ```
 
+### Command Line Interface (mermaid-cli)
+
+For detailed installation instructions and usage, see the official [mermaid-cli repository](https://github.com/mermaid-js/mermaid-cli).
+
+**Basic usage examples (after installation):**
+```bash
+# Convert Mermaid file to SVG
+mmdc -i input.mmd -o output.svg
+
+# Convert to PNG with dark theme and transparent background
+mmdc -i input.mmd -o output.png -t dark -b transparent
+
+# Generate diagrams in markdown files (automatically finds and replaces mermaid blocks)
+mmdc -i readme.template.md -o readme.md
+```
+
+**Piping input from stdin:**
+```bash
+cat << EOF | mmdc --input -
+flowchart TD
+    A[Start] --> B[Process]
+    B --> C[End]
+EOF
+```
+
+**Docker usage:**
+```bash
+docker pull minlag/mermaid-cli
+docker run --rm -u $(id -u):$(id -g) -v /path/to/diagrams:/data minlag/mermaid-cli -i diagram.mmd
+```
+
+**Syntax validation with mermaid-cli:**
+If mermaid-cli is installed, you can validate Mermaid syntax using:
+```bash
+# Test syntax by piping input
+echo "flowchart TD; A-->B" | mmdc --input -
+# If no errors occur, the syntax is valid
+```
+
+*If mermaid-cli is not installed, please refer to the [official installation guide](https://github.com/mermaid-js/mermaid-cli) for setup instructions.*
+
 **Configuration:**
 ```javascript
 mermaid.initialize({
@@ -633,6 +674,17 @@ const renderDiagram = async (element, definition) => {
 - Validate indentation (spaces only, no tabs)
 - Check for missing semicolons or brackets
 - Verify node and edge syntax
+
+**Using mermaid-cli for validation:**
+If you have mermaid-cli installed, you can validate syntax:
+```bash
+# Test syntax by attempting to render
+echo "flowchart TD; A-->B" | mmdc --input -
+# If successful, syntax is valid
+# If errors appear, check the console output for specific issues
+```
+
+For installation instructions, see the [official mermaid-cli repository](https://github.com/mermaid-js/mermaid-cli).
 
 **Performance issues:**
 - Large diagrams may slow page loading
