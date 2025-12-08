@@ -18,8 +18,8 @@ Typing "A---xB" will create a [cross edge](https://mermaid.js.org/syntax/#cross-
 
 ##### Code:
 
-```
-mermaid---
+```mermaid
+---
 title: Node
 ---
 flowchart LR
@@ -44,8 +44,8 @@ It is also possible to set text in the box that differs from the id. If this is 
 
 ##### Code:
 
-```
-mermaid---
+```mermaid
+---
 title: Node with text
 ---
 flowchart LR
@@ -62,8 +62,8 @@ Use `"` to enclose the unicode text.
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id["This ❤ Unicode"]
 ```
 
@@ -75,8 +75,8 @@ Use double quotes and backticks "\` text \`" to enclose the markdown text.
 
 ##### Code:
 
-```
-mermaid---
+```mermaid
+---
 config:
   flowchart:
     htmlLabels: false
@@ -103,8 +103,8 @@ This declares the flowchart is oriented from top to bottom (`TD` or `TB`).
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     Start --> Stop
 ```
 
@@ -116,8 +116,8 @@ This declares the flowchart is oriented from left to right (`LR`).
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     Start --> Stop
 ```
 
@@ -139,8 +139,8 @@ Possible FlowChart orientations are:
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1(This is the text in the box)
 ```
 
@@ -150,8 +150,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1([This is the text in the box])
 ```
 
@@ -161,8 +161,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1[[This is the text in the box]]
 ```
 
@@ -172,8 +172,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1[(Database)]
 ```
 
@@ -183,8 +183,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1((This is the text in the circle))
 ```
 
@@ -194,8 +194,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1>This is the text in the box]
 ```
 
@@ -207,8 +207,8 @@ Currently only the shape above is possible and not its mirror. *This might chang
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1{This is the text in the box}
 ```
 
@@ -218,8 +218,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1{{This is the text in the box}}
 ```
 
@@ -229,8 +229,8 @@ mermaidflowchart LR
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     id1[/This is the text in the box/]
 ```
 
@@ -240,8 +240,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     id1[\This is the text in the box\]
 ```
 
@@ -251,8 +251,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A[/Christmas\]
 ```
 
@@ -262,8 +262,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     B[\Go shopping/]
 ```
 
@@ -273,8 +273,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     id1(((This is the text in the circle)))
 ```
 
@@ -350,8 +350,8 @@ Here’s an example flowchart that utilizes some of the newly introduced shapes:
 
 ##### Code:
 
-```
-mermaidflowchart RL
+```mermaid
+flowchart RL
     A@{ shape: manual-file, label: "File Handling"}
     B@{ shape: manual-input, label: "User Input"}
     C@{ shape: docs, label: "Multiple Documents"}
@@ -373,8 +373,8 @@ Paper Records
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: rect, label: "This is a process" }
 ```
 
@@ -384,8 +384,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: rounded, label: "This is an event" }
 ```
 
@@ -395,8 +395,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: stadium, label: "Terminal point" }
 ```
 
@@ -406,8 +406,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: subproc, label: "This is a subprocess" }
 ```
 
@@ -417,8 +417,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: cyl, label: "Database" }
 ```
 
@@ -428,8 +428,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: circle, label: "Start" }
 ```
 
@@ -439,8 +439,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: odd, label: "Odd shape" }
 ```
 
@@ -450,8 +450,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: diamond, label: "Decision" }
 ```
 
@@ -461,8 +461,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: hex, label: "Prepare conditional" }
 ```
 
@@ -472,8 +472,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: lean-r, label: "Input/Output" }
 ```
 
@@ -483,8 +483,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: lean-l, label: "Output/Input" }
 ```
 
@@ -494,8 +494,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: trap-b, label: "Priority action" }
 ```
 
@@ -505,8 +505,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: trap-t, label: "Manual operation" }
 ```
 
@@ -516,8 +516,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: dbl-circ, label: "Stop" }
 ```
 
@@ -527,8 +527,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: text, label: "This is a text block" }
 ```
 
@@ -538,8 +538,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: notch-rect, label: "Card" }
 ```
 
@@ -549,8 +549,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: lin-rect, label: "Lined process" }
 ```
 
@@ -560,8 +560,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: sm-circ, label: "Small start" }
 ```
 
@@ -569,8 +569,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: framed-circle, label: "Stop" }
 ```
 
@@ -578,8 +578,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: fork, label: "Fork or Join" }
 ```
 
@@ -587,8 +587,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: hourglass, label: "Collate" }
 ```
 
@@ -596,8 +596,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: comment, label: "Comment" }
 ```
 
@@ -607,8 +607,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: brace-r, label: "Comment" }
 ```
 
@@ -618,8 +618,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: braces, label: "Comment" }
 ```
 
@@ -629,8 +629,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: bolt, label: "Communication link" }
 ```
 
@@ -638,8 +638,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: doc, label: "Document" }
 ```
 
@@ -649,8 +649,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: delay, label: "Delay" }
 ```
 
@@ -660,8 +660,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: das, label: "Direct access storage" }
 ```
 
@@ -677,8 +677,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: lin-cyl, label: "Disk storage" }
 ```
 
@@ -688,8 +688,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: curv-trap, label: "Display" }
 ```
 
@@ -699,8 +699,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: div-rect, label: "Divided process" }
 ```
 
@@ -710,8 +710,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: tri, label: "Extract" }
 ```
 
@@ -721,8 +721,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: win-pane, label: "Internal storage" }
 ```
 
@@ -732,8 +732,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: f-circ, label: "Junction" }
 ```
 
@@ -741,8 +741,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: lin-doc, label: "Lined document" }
 ```
 
@@ -752,8 +752,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: notch-pent, label: "Loop limit" }
 ```
 
@@ -763,8 +763,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: flip-tri, label: "Manual file" }
 ```
 
@@ -774,8 +774,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: sl-rect, label: "Manual input" }
 ```
 
@@ -785,8 +785,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: docs, label: "Multiple documents" }
 ```
 
@@ -796,8 +796,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: processes, label: "Multiple processes" }
 ```
 
@@ -807,8 +807,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: flag, label: "Paper tape" }
 ```
 
@@ -818,8 +818,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: bow-rect, label: "Stored data" }
 ```
 
@@ -829,8 +829,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: cross-circ, label: "Summary" }
 ```
 
@@ -838,8 +838,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: tag-doc, label: "Tagged document" }
 ```
 
@@ -849,8 +849,8 @@ mermaidflowchart TD
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ shape: tag-rect, label: "Tagged process" }
 ```
 
@@ -866,8 +866,8 @@ You can use the `icon` shape to include an icon in your flowchart. To use icons,
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A@{ icon: "fa:user", form: "square", label: "User Icon", pos: "t", h: 60 }
 ```
 
@@ -909,8 +909,8 @@ If you want to resize an image, but keep the same aspect ratio, set `h`, and set
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
   %% My image with a constrained aspect ratio
   A@{ img: "https://mermaid.js.org/favicon.svg", label: "My example image label", pos: "t", h: 60, constraint: "on" }
 ```
@@ -925,8 +925,8 @@ Nodes can be connected with links/edges. It is possible to have different types 
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-->B
 ```
 
@@ -938,8 +938,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A --- B
 ```
 
@@ -951,8 +951,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-- This is the text! ---B
 ```
 
@@ -966,8 +966,8 @@ or
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A---|This is the text|B
 ```
 
@@ -981,8 +981,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-->|text|B
 ```
 
@@ -996,8 +996,8 @@ or
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-- text -->B
 ```
 
@@ -1011,8 +1011,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    A-.->B;
 ```
 
@@ -1024,8 +1024,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    A-. text .-> B
 ```
 
@@ -1039,8 +1039,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    A ==> B
 ```
 
@@ -1052,8 +1052,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    A == text ==> B
 ```
 
@@ -1067,8 +1067,8 @@ This can be a useful tool in some instances where you want to alter the default 
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A ~~~ B
 ```
 
@@ -1082,8 +1082,8 @@ It is possible declare many links in the same line as per below:
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    A -- text --> B -- text2 --> C
 ```
 
@@ -1101,8 +1101,8 @@ It is also possible to declare multiple nodes links in the same line as per belo
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
    a --> b & c--> d
 ```
 
@@ -1118,8 +1118,8 @@ You can then describe dependencies in a very expressive way. Like the one-liner 
 
 ##### Code:
 
-```
-mermaidflowchart TB
+```mermaid
+flowchart TB
     A & B--> C & D
 ```
 
@@ -1135,8 +1135,8 @@ If you describe the same diagram using the basic syntax, it will take four lines
 
 ##### Code:
 
-```
-mermaidflowchart TB
+```mermaid
+flowchart TB
     A --> C
     A --> D
     B --> C
@@ -1161,8 +1161,8 @@ To give an edge an ID, prepend the edge syntax with the ID followed by an `@` ch
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
   A e1@--> B
 ```
 
@@ -1178,8 +1178,8 @@ Once you have assigned an ID to an edge, you can turn on animations for that edg
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
   A e1@==> B
   e1@{ animate: true }
 ```
@@ -1198,8 +1198,8 @@ In the initial version, two animation speeds are supported: `fast` and `slow`. S
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
   A e1@--> B
   e1@{ animation: fast }
 ```
@@ -1216,8 +1216,8 @@ You can also animate edges by assigning a class to them and then defining animat
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
   A e1@--> B
   classDef animate stroke-dasharray: 9,5,stroke-dashoffset: 900,animation: dash 25s linear infinite;
   class e1 animate
@@ -1246,8 +1246,8 @@ There are new types of arrows supported:
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A --o B
 ```
 
@@ -1259,8 +1259,8 @@ B
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A --x B
 ```
 
@@ -1274,8 +1274,8 @@ There is the possibility to use multidirectional arrows.
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A o--o B
     B <--> C
     C x--x D
@@ -1297,8 +1297,8 @@ In the following example, two extra dashes are added in the link from node *B* t
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A[Start] --> B{Is it?}
     B -->|Yes| C[OK]
     C --> D[Rethink]
@@ -1326,8 +1326,8 @@ When the link label is written in the middle of the link, the extra dashes must 
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     A[Start] --> B{Is it?}
     B -- Yes --> C[OK]
     C --> D[Rethink]
@@ -1366,8 +1366,8 @@ It is possible to put text within quotes in order to render more troublesome cha
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1["This is the (text) in the box"]
 ```
 
@@ -1379,8 +1379,8 @@ It is possible to escape characters using the syntax exemplified here.
 
 ##### Code:
 
-```
-mermaid    flowchart LR
+```mermaid
+    flowchart LR
         A["A double quote:#quot;"] --> B["A dec char:#9829;"]
 ```
 
@@ -1396,8 +1396,8 @@ An example below:
 
 ##### Code:
 
-```
-mermaidflowchart TB
+```mermaid
+flowchart TB
     c1-->a2
     subgraph one
     a1-->a2
@@ -1432,8 +1432,8 @@ You can also set an explicit id for the subgraph.
 
 ##### Code:
 
-```
-mermaidflowchart TB
+```mermaid
+flowchart TB
     c1-->a2
     subgraph ide1 [one]
     a1-->a2
@@ -1454,8 +1454,8 @@ With the graphtype flowchart it is also possible to set edges to and from subgra
 
 ##### Code:
 
-```
-mermaidflowchart TB
+```mermaid
+flowchart TB
     c1-->a2
     subgraph one
     a1-->a2
@@ -1495,8 +1495,8 @@ With the graphtype flowcharts you can use the direction statement to set the dir
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
   subgraph TOP
     direction TB
     subgraph B1
@@ -1536,8 +1536,8 @@ If any of a subgraph's nodes are linked to the outside, subgraph direction will 
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     subgraph subgraph1
         direction TB
         top1[top] --> bottom1[bottom]
@@ -1575,8 +1575,8 @@ The "Markdown Strings" feature enhances flowcharts and mind maps by offering a m
 
 ##### Code:
 
-```
-mermaid---
+```mermaid
+---
 config:
   flowchart:
     htmlLabels: false
@@ -1628,8 +1628,8 @@ The tooltip text is surrounded in double quotes. The styles of the tooltip are s
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-->B
     B-->C
     C-->D
@@ -1655,8 +1655,8 @@ Links are opened in the same browser tab/window by default. It is possible to ch
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-->B
     B-->C
     C-->D
@@ -1683,8 +1683,8 @@ Comments can be entered within a flow diagram, which will be ignored by the pars
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
 %% this is a comment A -- text --> B{node}
    A -- text --> B -- text2 --> C
 ```
@@ -1728,8 +1728,8 @@ You can assign IDs to [edges](https://mermaid.js.org/syntax/#attaching-an-id-to-
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A e1@==> B
     A e2@--> C
     e1@{ curve: linear }
@@ -1748,8 +1748,8 @@ It is possible to apply specific styles such as a thicker border or a different 
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     id1(Start)-->id2(Stop)
     style id1 fill:#f9f,stroke:#333,stroke-width:4px
     style id2 fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
@@ -1775,8 +1775,8 @@ A shorter form of adding a class is to attach the classname to the node using th
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A:::someclass --> B
     classDef someclass fill:#f96
 ```
@@ -1789,8 +1789,8 @@ This form can be used when declaring multiple links between nodes:
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A:::foo & B:::bar --> C:::foobar
     classDef foo stroke:#f00
     classDef bar stroke:#0f0
@@ -1813,8 +1813,8 @@ It is also possible to predefine classes in CSS styles that can be applied from 
 
 ##### Code:
 
-```
-mermaidflowchart LR
+```mermaid
+flowchart LR
     A-->B[AAA<span>BBB</span>]
     B-->D
     class A cssClass
@@ -1838,8 +1838,8 @@ The icons are accessed via the syntax fa:#icon class name#.
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     B["fa:fa-twitter for peace"]
     B-->C[fa:fa-ban forbidden]
     B-->D(fa:fa-spinner)
@@ -1878,8 +1878,8 @@ And trying to render it
 
 ##### Code:
 
-```
-mermaidflowchart TD
+```mermaid
+flowchart TD
     B["fa:fa-twitter for peace"]
     B-->C["fab:fa-truck-bold a custom icon"]
 ```
@@ -1897,8 +1897,8 @@ Below is the new declaration of the graph edges which is also valid along with t
 
 ##### Code:
 
-```
-mermaidflowchart LR
+``` mermaid
+flowchart LR
     A[Hard edge] -->|Link text| B(Round edge)
     B --> C{Decision}
     C -->|One| D[Result one]
