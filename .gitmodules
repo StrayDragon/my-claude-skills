@@ -22,3 +22,6 @@
 [submodule "rust-cli-tui-developer/source/ratatui"]
 	path = rust-cli-tui-developer/source/ratatui
 	url = git@github.com:ratatui/ratatui.git
+[submodule "langgraph-python-expert/source/langgraph"]
+	path = langgraph-python-expert/source/langgraph
+	url = https://github.com/langchain-ai/langgraph.git

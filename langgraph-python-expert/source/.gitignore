@@ -1,17 +1,10 @@
-# Ignore everything except specific files and directories
-*
+# Ignore temporary and cache files
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.coverage
+*.egg-info/
 
-# But keep these files and directories
-!README.md
-!QUICK_ACCESS.md
-!scripts/
-!.gitignore
-!langgraph/
-!langgraph/.git
-!langgraph/README.md
-!langgraph/pyproject.toml
-!langgraph/libs/
-!langgraph/examples/
-!langgraph/docs/
-!langgraph/tests/
-!langgraph/*.md
+# Keep langgraph as submodule (managed by git submodule)
+# Sparse checkout will handle the filtering
