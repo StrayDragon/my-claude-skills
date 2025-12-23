@@ -5,15 +5,12 @@
 ## 🚀 快速开始
 
 ```bash
-# 初始化
-cd source
-./scripts/setup.sh
-
-# 探索代码
-./scripts/explore.sh
-
 # 更新到最新版本
-./scripts/update.sh
+cd langgraph
+git pull origin main
+
+# 查看 sparse-checkout 配置
+git sparse-checkout list
 ```
 
 ## 📂 核心文件位置
@@ -22,44 +19,59 @@ cd source
 
 **图构建相关：**
 ```
-langgraph/libs/langgraph/src/langgraph/graph/__init__.py
-├── StateGraph - 主要的图构建类
-├── MessageGraph - 消息图类
-└── END, START - 常量定义
+langgraph/libs/langgraph/langgraph/graph/
+├── state.py      - StateGraph 主要实现
+├── message.py    - MessageGraph 实现
+└── graph.py      - 基础图类
+
+langgraph/libs/langgraph/langgraph/constants.py
+├── START         - 起始节点常量
+└── END           - 结束节点常量
 ```
 
 **检查点存储：**
 ```
-langgraph/libs/langgraph/src/langgraph/checkpoint/
-├── memory.py - 内存检查点
-├── sqlite.py - SQLite 检查点
-└── postgres.py - PostgreSQL 检查点
+langgraph/libs/checkpoint/langgraph/checkpoint/
+├── base.py       - BaseCheckpointSaver 基类
+└── memory.py     - MemorySaver 内存存储
+
+langgraph/libs/checkpoint-sqlite/langgraph/checkpoint/sqlite/
+└── __init__.py   - SqliteSaver
+
+langgraph/libs/checkpoint-postgres/langgraph/checkpoint/postgres/
+└── __init__.py   - PostgresSaver
 ```
 
 **预构建组件：**
 ```
-langgraph/libs/langgraph/src/langgraph/prebuilt/
-├── create_react_agent.py - React 代理创建器
-├── tool_node.py - 工具执行节点
-└── chat_agent_executor.py - 聊天代理执行器
+langgraph/libs/prebuilt/langgraph/prebuilt/
+├── react.py      - create_react_agent
+├── tool_node.py  - ToolNode 工具执行节点
+└── chat.py       - 聊天相关组件
 ```
 
 ### 示例代码
 
 **基础示例：**
 ```
-langgraph/examples/basic/
-├── basic_chat.py - 基础聊天
-├── human_in_the_loop.py - 人机交互
-└── multi_agent.py - 多代理
+langgraph/examples/
+├── create-react-agent.ipynb      - React Agent 创建
+├── persistence.ipynb             - 持久化示例
+├── human_in_the_loop/            - 人机交互
+└── multi_agent/                  - 多代理协作
 ```
 
-**高级示例：**
+### 文档
+
 ```
-langgraph/examples/agents/
-├── agent_executor.py - 代理执行器
-├── openai_functions_agent.py - OpenAI 函数代理
-└── conversational_retrieval.py - 对话检索
+langgraph/docs/docs/
+├── index.md                      - 文档首页
+├── llms.txt                      - LLM 友好索引
+├── concepts/                     - 概念文档
+│   ├── high_level.md
+│   └── low_level.md
+├── how-tos/                      - 操作指南
+└── reference/                    - API 参考
 ```
 
 ## 🔍 代码导航技巧
@@ -67,86 +79,54 @@ langgraph/examples/agents/
 ### 1. 查找特定功能
 ```bash
 # 查找 StateGraph 的实现
-find langgraph -name "*.py" -exec grep -l "class StateGraph" {} \;
+grep -r "class StateGraph" langgraph/libs/
 
 # 查找检查点相关的实现
-find langgraph -name "*.py" -exec grep -l "class.*Checkpoint" {} \;
+grep -r "class.*Saver" langgraph/libs/
 ```
 
 ### 2. 查看最新变更
 ```bash
 cd langgraph
-git log --oneline -10  # 最近 10 个提交
-git log --oneline --since="1 week ago"  # 最近一周的变更
+git log --oneline -10
 ```
 
 ### 3. 查找使用示例
 ```bash
 # 在示例中查找特定 API 的使用
-grep -r "StateGraph" langgraph/examples/ --include="*.py"
+grep -r "StateGraph" langgraph/examples/ --include="*.py" --include="*.ipynb"
 ```
 
 ## 📚 重要文件说明
 
 ### 核心实现文件
-1. **`libs/langgraph/src/langgraph/graph/graph.py`** - StateGraph 的主要实现
-2. **`libs/langgraph/src/langgraph/graph/message_graph.py`** - MessageGraph 实现
-3. **`libs/langgraph/src/langgraph/checkpoint/base.py`** - 检查点基类
-4. **`libs/langgraph/src/langgraph/pregel/__init__.py`** - Pregel 算法实现
+1. **`libs/langgraph/langgraph/graph/state.py`** - StateGraph 主要实现
+2. **`libs/langgraph/langgraph/pregel/`** - Pregel 算法实现
+3. **`libs/checkpoint/langgraph/checkpoint/base.py`** - 检查点基类
 
 ### 配置文件
-1. **`pyproject.toml`** - 项目配置和依赖
-2. **`README.md`** - 官方说明文档
-
-## 🛠️ 开发和测试
-
-### 运行测试
-```bash
-cd langgraph
-# 运行所有测试
-pytest
-
-# 运行特定测试
-pytest tests/test_graph.py
-
-# 查看测试覆盖
-pytest --cov=langgraph
-```
-
-### 运行示例
-```bash
-cd langgraph/examples/basic
-python basic_chat.py
-```
+1. **`README.md`** - 官方说明文档
+2. **`CLAUDE.md`** - Claude Code 使用指南
+3. **`AGENTS.md`** - Agent 开发指南
 
 ## 📖 学习路径建议
 
 1. **初学者：**
-   - 从 `examples/basic/` 开始
-   - 阅读 `libs/langgraph/src/langgraph/graph/__init__.py`
+   - 从 `examples/create-react-agent.ipynb` 开始
+   - 阅读 `docs/docs/concepts/high_level.md`
 
 2. **中级：**
-   - 研究 `examples/agents/` 中的示例
-   - 查看 `libs/langgraph/src/langgraph/prebuilt/` 组件
+   - 研究 `examples/multi_agent/` 中的示例
+   - 查看 `libs/prebuilt/` 预构建组件
 
 3. **高级：**
-   - 阅读 `libs/langgraph/src/langgraph/pregel/` 实现
-   - 研究检查点系统 `libs/langgraph/src/langgraph/checkpoint/`
-
-## 🔧 自定义和扩展
-
-### 添加新的检查点存储
-参考 `libs/langgraph/src/langgraph/checkpoint/` 中的现有实现
-
-### 创建自定义节点
-查看 `examples/` 中的自定义节点示例
-
-### 扩展预构建组件
-参考 `libs/langgraph/src/langgraph/prebuilt/` 中的组件
+   - 阅读 `libs/langgraph/langgraph/pregel/` 实现
+   - 研究检查点系统 `libs/checkpoint*/`
 
 ## 📞 获取帮助
 
-- **官方文档：** 查看 `docs/` 目录
+- **官方文档：** `docs/docs/` 目录
 - **示例代码：** `examples/` 目录
-- **测试用例：** `tests/` 目录中的测试用例展示了各种使用模式
+- **LLM 索引：** `docs/docs/llms.txt`
 - **GitHub Issues：** [LangGraph Issues](https://github.com/langchain-ai/langgraph/issues)
+

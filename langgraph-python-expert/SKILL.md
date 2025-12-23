@@ -9,27 +9,36 @@ Comprehensive expert for building sophisticated stateful applications with LangG
 
 ## 📚 Official Source Documentation
 
-This skill includes access to the official LangGraph source code through the `source/` directory, which contains:
+This skill includes access to the official LangGraph source code through the `source/langgraph/` directory (managed as git submodule with sparse-checkout), which contains:
 
-- **Latest API Implementation**: Real source code from the official LangGraph repository
-- **Official Examples**: Up-to-date examples and tutorials
-- **Complete Documentation**: Latest documentation and API references
-- **Test Cases**: Comprehensive test suite showing usage patterns
+- **Core Libraries**: `libs/langgraph/`, `libs/prebuilt/`, `libs/checkpoint*/`
+- **Official Examples**: `examples/` - Up-to-date examples and tutorials
+- **Complete Documentation**: `docs/docs/` - Latest documentation and API references
 
-### Accessing Source Code
-```bash
-# Initialize the source code
-cd source
-./scripts/setup.sh
+### Source Structure (66MB with sparse-checkout)
 
-# Explore the codebase
-./scripts/explore.sh
-
-# Update to latest version
-./scripts/update.sh
+```
+source/langgraph/
+├── libs/
+│   ├── langgraph/          # Core StateGraph, nodes, edges
+│   ├── prebuilt/           # create_react_agent, ToolNode
+│   ├── checkpoint/         # Base checkpoint classes
+│   ├── checkpoint-sqlite/  # SQLite persistence
+│   └── checkpoint-postgres/# PostgreSQL persistence
+├── examples/               # Official examples and tutorials
+├── docs/docs/              # Documentation (concepts, how-tos, reference)
+├── README.md               # Project overview
+├── CLAUDE.md               # Claude Code instructions
+└── AGENTS.md               # Agent development guide
 ```
 
-For quick reference, see [source/QUICK_ACCESS.md](source/QUICK_ACCESS.md) for file locations and navigation tips.
+### Updating Source Code
+```bash
+cd source/langgraph
+git pull origin main
+```
+
+For detailed structure, see [SOURCE_STRUCTURE.md](SOURCE_STRUCTURE.md).
 
 ## Quick Start
 
@@ -619,28 +628,29 @@ pip install sqlalchemy      # Alternative persistence options
 
 ### Source Code Access
 
-For accessing the latest LangGraph source code and examples:
+The LangGraph source code is managed as a git submodule with sparse-checkout to reduce size (66MB vs full repo):
 
 ```bash
-# Navigate to source directory
-cd source
+# Update to latest version
+cd source/langgraph
+git pull origin main
 
-# Initialize and download official source code
-./scripts/setup.sh
+# View sparse-checkout configuration
+git sparse-checkout list
 
-# The setup script will:
-# - Download the latest LangGraph repository
-# - Configure sparse-checkout to reduce download size
-# - Set up access to core APIs, examples, and documentation
+# Temporarily access full repo (if needed)
+git sparse-checkout disable
+# ... do work ...
+git sparse-checkout reapply
 ```
 
-After setup, you can explore:
-- `langgraph/libs/langgraph/src/` - Core API implementation
-- `langgraph/examples/` - Official examples and tutorials
-- `langgraph/docs/` - Latest documentation
-- `langgraph/tests/` - Test cases showing usage patterns
+**Key locations:**
+- `source/langgraph/libs/langgraph/langgraph/` - Core API (StateGraph, nodes, edges)
+- `source/langgraph/libs/prebuilt/langgraph/` - Prebuilt components (create_react_agent)
+- `source/langgraph/examples/` - Official examples and tutorials
+- `source/langgraph/docs/docs/` - Documentation (concepts, how-tos, reference)
 
-See [source/QUICK_ACCESS.md](source/QUICK_ACCESS.md) for detailed navigation guide.
+See [SOURCE_STRUCTURE.md](SOURCE_STRUCTURE.md) for detailed navigation guide.
 
 ## Performance Tips
 

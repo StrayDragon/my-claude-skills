@@ -1,67 +1,59 @@
-# LangGraph Source Documentation
+# LangGraph Source Directory
 
-这个目录包含 LangGraph 官方源代码和文档，通过 git submodule 管理以保持最新状态。
+此目录包含 LangGraph 官方源代码，通过 Git Submodule + Sparse Checkout 管理。
 
-## 目录结构
+## 📦 目录结构
 
 ```
 source/
-├── README.md                 # 本文件
-├── langgraph/               # LangGraph 官方仓库 (git submodule)
-│   ├── libs/                # 核心库代码
-│   │   ├── langgraph/       # 主要 langgraph 库
-│   │   └── langgraph-openai # OpenAI 集成
-│   ├── examples/            # 官方示例
-│   │   ├── basic/          # 基础示例
-│   │   ├── agents/         # 代理示例
-│   │   └── advanced/       # 高级示例
-│   ├── docs/               # 官方文档
-│   └── tests/              # 测试代码
-└── scripts/                # 快速访问脚本
-    ├── setup.sh            # 初始化脚本
-    ├── update.sh           # 更新脚本
-    └── explore.sh          # 探索脚本
+├── README.md           # 本文件
+├── QUICK_ACCESS.md     # 快速访问指南
+└── langgraph/          # Git Submodule (sparse-checkout)
+    ├── libs/           # 核心库代码
+    ├── examples/       # 官方示例
+    ├── docs/docs/      # 文档
+    └── ...
 ```
 
-## 使用说明
+## 🔧 管理方式
 
-### 初始化
+- **Git Submodule**: 源码作为子模块管理
+- **Sparse Checkout**: 只检出必要的文件（~66MB vs 完整仓库 >500MB）
+
+## 📋 常用操作
+
+### 更新源码
+
 ```bash
-cd source
-./scripts/setup.sh
+cd langgraph
+git pull origin main
 ```
 
-### 更新到最新版本
+### 查看配置
+
 ```bash
-./scripts/update.sh
+cd langgraph
+git sparse-checkout list
 ```
 
-### 快速探索
+### 初始化（首次克隆后）
+
 ```bash
-./scripts/explore.sh
+# 在项目根目录
+git submodule update --init --recursive
+
+# 配置 sparse-checkout
+cd langgraph-python-expert/source/langgraph
+git sparse-checkout init --no-cone
+git sparse-checkout set \
+    /README.md /CLAUDE.md /AGENTS.md /LICENSE \
+    /libs/langgraph/ /libs/prebuilt/ \
+    /libs/checkpoint/ /libs/checkpoint-sqlite/ /libs/checkpoint-postgres/ \
+    /docs/docs/ /examples/
 ```
 
-## 主要组件
+## 📚 详细文档
 
-### 核心 API 文件
-- `langgraph/libs/langgraph/src/langgraph/graph/` - 图构建相关 API
-- `langgraph/libs/langgraph/src/langgraph/checkpoint/` - 检查点存储
-- `langgraph/libs/langgraph/src/langgraph/prebuilt/` - 预构建组件
+- [QUICK_ACCESS.md](QUICK_ACCESS.md) - 快速访问指南
+- [../SOURCE_STRUCTURE.md](../SOURCE_STRUCTURE.md) - 完整结构文档
 
-### 示例代码
-- `langgraph/examples/basic/` - 基础用法示例
-- `langgraph/examples/agents/` - 代理模式示例
-- `langgraph/examples/advanced/` - 高级功能示例
-
-### 测试代码
-- `langgraph/tests/` - 完整的测试套件，展示各种使用模式
-
-## 版本信息
-
-当前跟踪的是 LangGraph 官方主分支的最新代码，确保获取最新的功能和修复。
-
-## 注意事项
-
-1. 这是一个 git submodule，需要单独初始化和更新
-2. 大小可能较大，使用 git sparse-checkout 来精简下载
-3. 官方代码会定期更新，建议定期运行 update.sh
