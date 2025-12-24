@@ -12,6 +12,18 @@
   "repository": "https://github.com/StrayDragon/straydragon-claude-skills",
   "plugins": [
     {
+      "name": "agent-skills-expert",
+      "description": "Expert for creating and managing Claude Code Agent Skills. Create skills with git submodule + sparse-checkout for source references, write SKILL.md with proper frontmatter, and follow best practices.",
+      "source": "./agent-skills-expert",
+      "category": "development"
+    },
+    {
+      "name": "feishu-openapi-dev",
+      "description": "Expert guidance for Feishu (飞书) / Lark OpenAPI Python development. Build Feishu applications, robots, handle event subscriptions, card callbacks, and API integrations.",
+      "source": "./feishu-openapi-dev",
+      "category": "development"
+    },
+    {
       "name": "langgraph-python-expert",
       "description": "Expert guidance for LangGraph Python library. Build stateful, multi-actor applications with LLMs using nodes, edges, and state management.",
       "source": "./langgraph-python-expert",
@@ -22,6 +34,12 @@
       "description": "Comprehensive Slint GUI development expert based on official source code. Covers Rust integration, component design, layouts, styling, animations, and cross-platform deployment.",
       "source": "./lib-slint-expert",
       "category": "development"
+    },
+    {
+      "name": "mermaid-expert",
+      "description": "Expert guidance for Mermaid.js diagramming library. Create flowcharts, sequence diagrams, class diagrams, state diagrams, Gantt charts, git graphs, and block diagrams.",
+      "source": "./mermaid_expert",
+      "category": "documentation"
     },
     {
       "name": "python-expert-tester",
@@ -36,6 +54,12 @@
       "category": "development"
     },
     {
+      "name": "rust-cli-tui-developer",
+      "description": "Expert guidance for Rust CLI and TUI development with official examples from clap, inquire, and ratatui libraries. Build command-line interfaces and terminal user interfaces.",
+      "source": "./rust-cli-tui-developer",
+      "category": "development"
+    },
+    {
       "name": "uv-expert",
       "description": "Expert guidance for uv Python package and project manager. Use when working with uv, Python dependency management, project setup, and virtual environments.",
       "source": "./uv-expert",
@@ -46,13 +70,6 @@
       "description": "Comprehensive VSCode extension development expert that guides you through creating extensions using the official Yeoman generator tool with complete API reference.",
       "source": "./vscode-extension-builder",
       "category": "development"
-    },
-    {
-      "name": "mermaid-expert",
-      "description": "Expert guidance for Mermaid.js diagramming library. Create flowcharts, sequence diagrams, class diagrams, state diagrams, Gantt charts, git graphs, and block diagrams.",
-      "source": "./mermaid_expert",
-      "category": "documentation"
     }
   ]
 }
-
