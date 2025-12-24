@@ -25,3 +25,12 @@
 [submodule "langgraph-python-expert/source/langgraph"]
 	path = langgraph-python-expert/source/langgraph
 	url = https://github.com/langchain-ai/langgraph.git
+[submodule "feishu-openapi-expert/source/lark-samples"]
+	path = feishu-openapi-dev/source/lark-samples
+	url = git@github.com:larksuite/lark-samples.git
+[submodule "feishu-openapi-expert/source/oapi-sdk-python"]
+	path = feishu-openapi-dev/source/oapi-sdk-python
+	url = git@github.com:larksuite/oapi-sdk-python.git
+[submodule "feishu-openapi-expert/source/oapi-sdk-python-compact"]
+	path = feishu-openapi-dev/source/oapi-sdk-python-compact
+	url = git@github.com:StrayDragon/oapi-sdk-python-compact.git

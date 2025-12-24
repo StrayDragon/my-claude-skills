@@ -5,78 +5,78 @@ description: Expert for creating and managing Claude Code Agent Skills. Create s
 
 # Agent Skills Expert
 
-专业的 Claude Code Agent Skills 创建和管理专家。帮助创建符合官方规范的技能，包括使用 Git Submodule + Sparse Checkout 管理源码引用。
+Expert for creating and managing Claude Code Agent Skills. Helps create skills that follow official specifications, including using Git Submodule + Sparse Checkout for source code references.
 
-## 📚 核心概念
+## 📚 Core Concepts
 
-### 什么是 Agent Skill？
+### What is an Agent Skill?
 
-Agent Skill 是 Claude Code 的可扩展能力模块，包含：
-- `SKILL.md` - 技能定义文件（必需）
-- 支持文件 - 文档、脚本、模板等（可选）
-- `source/` - 源码引用目录（可选，使用 git submodule）
+Agent Skill is an extensible capability module for Claude Code, containing:
+- `SKILL.md` - Skill definition file (required)
+- Supporting files - Documentation, scripts, templates, etc. (optional)
+- `source/` - Source code reference directory (optional, using git submodule)
 
-### 技能存储位置
+### Skill Storage Locations
 
-- **个人技能**: `~/.claude/skills/skill-name/`
-- **项目技能**: `.claude/skills/skill-name/`
+- **Personal Skills**: `~/.claude/skills/skill-name/`
+- **Project Skills**: `.claude/skills/skill-name/`
 
-## 🔧 创建技能流程
+## 🔧 Skill Creation Workflow
 
-### 1. 基础技能结构
+### 1. Basic Skill Structure
 
 ```
 skill-name/
-├── SKILL.md              # 必需：技能定义
-├── examples.md           # 可选：示例代码
-├── quick-reference.md    # 可选：快速参考
-├── SOURCE_STRUCTURE.md   # 可选：源码结构文档
-├── scripts/              # 可选：辅助脚本
-└── source/               # 可选：源码引用
+├── SKILL.md              # Required: Skill definition
+├── examples.md           # Optional: Example code
+├── quick-reference.md    # Optional: Quick reference
+├── SOURCE_STRUCTURE.md   # Optional: Source structure documentation
+├── scripts/              # Optional: Helper scripts
+└── source/               # Optional: Source code references
     └── repo-name/        # Git Submodule
 ```
 
-### 2. SKILL.md 规范
+### 2. SKILL.md Specification
 
 ```yaml
 ---
-name: skill-name                    # 必需：小写字母、数字、连字符，最多64字符
-description: Brief description...   # 必需：技能描述，最多1024字符
-allowed-tools: Read, Grep, Glob     # 可选：限制可用工具
+name: skill-name                    # Required: lowercase letters, numbers, hyphens, max 64 chars
+description: Brief description...   # Required: Skill description, max 1024 chars
+allowed-tools: Read, Grep, Glob     # Optional: Restrict available tools
 ---
 
 # Skill Name
 
 ## Instructions
-清晰的使用说明...
+Clear usage instructions...
 
 ## Examples
-具体的使用示例...
+Concrete usage examples...
 ```
 
-**description 最佳实践**：
-- 说明技能做什么
-- 说明何时使用该技能
-- 包含关键词便于 Claude 发现
+**Description Best Practices**:
+- Explain what the skill does
+- Explain when to use the skill
+- Include keywords for Claude to discover
 
-### 3. 添加源码引用（Git Submodule + Sparse Checkout）
+### 3. Adding Source References (Git Submodule + Sparse Checkout)
 
-#### 步骤 1：添加 Submodule
+#### Step 1: Add Submodule
 
 ```bash
 cd ~/.claude/skills
 git submodule add https://github.com/org/repo.git skill-name/source/repo-name
 ```
 
-#### 步骤 2：配置 Sparse Checkout
+#### Step 2: Configure Sparse Checkout
 
 ```bash
 cd skill-name/source/repo-name
 
-# 初始化 sparse-checkout
+# Initialize sparse-checkout
 git sparse-checkout init --no-cone
 
-# 设置要保留的内容
+# Set content to keep
 git sparse-checkout set \
     /README.md \
     /docs/ \
@@ -84,34 +84,34 @@ git sparse-checkout set \
     /examples/
 ```
 
-#### 步骤 3：创建 SOURCE_STRUCTURE.md
+#### Step 3: Create SOURCE_STRUCTURE.md
 
-文档化源码结构，包括：
-- Sparse checkout 配置
-- 目录结构说明
-- 关键文件位置
-- 维护指南
+Document the source structure, including:
+- Sparse checkout configuration
+- Directory structure explanation
+- Key file locations
+- Maintenance guide
 
-## 📋 Sparse Checkout 配置指南
+## 📋 Sparse Checkout Configuration Guide
 
-### 选择保留内容的原则
+### Principles for Selecting Content to Keep
 
-1. **核心源码** - 主要 API 实现
-2. **文档** - README、docs 目录
-3. **示例** - examples 目录
-4. **配置文件** - pyproject.toml、package.json 等
-5. **测试** - 展示使用模式的测试用例
+1. **Core source code** - Main API implementation
+2. **Documentation** - README, docs directory
+3. **Examples** - examples directory
+4. **Configuration files** - pyproject.toml, package.json, etc.
+5. **Tests** - Test cases showing usage patterns
 
-### 排除的内容
+### Content to Exclude
 
-- 大型资源文件（图片、视频）
-- 构建产物
-- CI/CD 配置（通常不需要）
-- 历史发布说明
+- Large resource files (images, videos)
+- Build artifacts
+- CI/CD configuration (usually not needed)
+- Historical release notes
 
-### 常用 Sparse Checkout 模式
+### Common Sparse Checkout Patterns
 
-**Python 项目：**
+**Python Projects:**
 ```bash
 git sparse-checkout set \
     /README.md \
@@ -123,7 +123,7 @@ git sparse-checkout set \
     /pyproject.toml
 ```
 
-**JavaScript/TypeScript 项目：**
+**JavaScript/TypeScript Projects:**
 ```bash
 git sparse-checkout set \
     /README.md \
@@ -135,7 +135,7 @@ git sparse-checkout set \
     /tsconfig.json
 ```
 
-**Rust 项目：**
+**Rust Projects:**
 ```bash
 git sparse-checkout set \
     /README.md \
@@ -146,95 +146,95 @@ git sparse-checkout set \
     /Cargo.toml
 ```
 
-## 🛠️ 维护操作
+## 🛠️ Maintenance Operations
 
-### 更新 Submodule
+### Update Submodule
 
 ```bash
 cd skill-name/source/repo-name
 git pull origin main
 ```
 
-### 修改 Sparse Checkout 配置
+### Modify Sparse Checkout Configuration
 
 ```bash
 cd skill-name/source/repo-name
 
-# 添加新目录
+# Add new directory
 git sparse-checkout add /new-dir/
 
-# 重新设置
+# Reconfigure
 git sparse-checkout set /dir1/ /dir2/ /file.md
 ```
 
-### 查看配置
+### View Configuration
 
 ```bash
 cd skill-name/source/repo-name
 git sparse-checkout list
-du -sh .  # 查看大小
+du -sh .  # Check size
 ```
 
-### 故障恢复
+### Troubleshooting Recovery
 
 ```bash
-# 完全重置 submodule
+# Completely reset submodule
 cd ~/.claude/skills
 git submodule deinit -f skill-name/source/repo-name
 rm -rf .git/modules/skill-name/source/repo-name
 git submodule update --init skill-name/source/repo-name
 
-# 重新配置 sparse-checkout
+# Reconfigure sparse-checkout
 cd skill-name/source/repo-name
 git sparse-checkout init --no-cone
-git sparse-checkout set /保留的目录/
+git sparse-checkout set /directories-to-keep/
 ```
 
-## 📝 模板文件
+## 📝 Template Files
 
-### SKILL.md 模板
+### SKILL.md Template
 
-见 [templates/SKILL_TEMPLATE.md](templates/SKILL_TEMPLATE.md)
+See [templates/SKILL_TEMPLATE.md](templates/SKILL_TEMPLATE.md)
 
-### SOURCE_STRUCTURE.md 模板
+### SOURCE_STRUCTURE.md Template
 
-见 [templates/SOURCE_STRUCTURE_TEMPLATE.md](templates/SOURCE_STRUCTURE_TEMPLATE.md)
+See [templates/SOURCE_STRUCTURE_TEMPLATE.md](templates/SOURCE_STRUCTURE_TEMPLATE.md)
 
-## ✅ 检查清单
+## ✅ Checklist
 
-### 创建新技能
+### Creating New Skill
 
-- [ ] 创建技能目录 `mkdir -p ~/.claude/skills/skill-name`
-- [ ] 创建 SKILL.md（包含正确的 frontmatter）
-- [ ] 编写清晰的 description（包含触发词）
-- [ ] 添加使用说明和示例
-- [ ] 测试技能是否被正确发现
+- [ ] Create skill directory `mkdir -p ~/.claude/skills/skill-name`
+- [ ] Create SKILL.md (with correct frontmatter)
+- [ ] Write clear description (include trigger keywords)
+- [ ] Add usage instructions and examples
+- [ ] Test that skill is correctly discovered
 
-### 添加源码引用
+### Adding Source References
 
-- [ ] 添加 git submodule
-- [ ] 配置 sparse-checkout
-- [ ] 验证大小合理（通常 <100MB）
-- [ ] 创建 SOURCE_STRUCTURE.md
-- [ ] 更新 SKILL.md 中的源码访问说明
-- [ ] 提交所有更改
+- [ ] Add git submodule
+- [ ] Configure sparse-checkout
+- [ ] Verify reasonable size (typically <100MB)
+- [ ] Create SOURCE_STRUCTURE.md
+- [ ] Update source access instructions in SKILL.md
+- [ ] Commit all changes
 
-### 维护
+### Maintenance
 
-- [ ] 定期更新 submodule
-- [ ] 检查 sparse-checkout 配置是否仍然合适
-- [ ] 更新文档反映最新结构
+- [ ] Regularly update submodule
+- [ ] Check if sparse-checkout configuration is still appropriate
+- [ ] Update documentation to reflect latest structure
 
-## 🔗 相关资源
+## 🔗 Related Resources
 
-- [GIT_SPARSE_CHECKOUT_TUTORIAL.md](../GIT_SPARSE_CHECKOUT_TUTORIAL.md) - Sparse Checkout 详细教程
-- [CLAUDE_CODE_SKILL_TUTORIAL.md](../CLAUDE_CODE_SKILL_TUTORIAL.md) - 官方技能教程
-- [Agent Skills 官方文档](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
+- [GIT_SPARSE_CHECKOUT_TUTORIAL.md](../GIT_SPARSE_CHECKOUT_TUTORIAL.md) - Detailed Sparse Checkout tutorial
+- [CLAUDE_CODE_SKILL_TUTORIAL.md](../CLAUDE_CODE_SKILL_TUTORIAL.md) - Official skill tutorial
+- [Agent Skills Official Documentation](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/overview)
 
-## 📊 现有技能参考
+## 📊 Existing Skills Reference
 
-| 技能 | 源码引用 | Sparse Checkout |
-|------|----------|-----------------|
+| Skill | Source Reference | Sparse Checkout |
+|-------|------------------|-----------------|
 | langgraph-python-expert | ✅ | ✅ (~66MB) |
 | lib-slint-expert | ✅ | ❌ |
 | vscode-extension-builder | ✅ | ✅ |
@@ -243,5 +243,4 @@ git sparse-checkout set /保留的目录/
 
 ---
 
-*最后更新: 2024-12-23*
-
+*Last updated: 2024-12-23*
