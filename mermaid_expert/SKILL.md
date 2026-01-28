@@ -58,46 +58,47 @@ Most modern platforms (GitHub, GitLab, Notion) support Mermaid natively using co
 npm install mermaid
 ```
 
-### Command Line Interface (mermaid-cli)
+### Command Line Interface
 
-For detailed installation instructions and usage, see the official [mermaid-cli repository](https://github.com/mermaid-js/mermaid-cli).
+**For flowchart diagrams only: mmdr (mermaid-rs-renderer)**
 
-**Basic usage examples (after installation):**
+[mmdr](https://github.com/1jehuang/mermaid-rs-renderer) is a fast native Rust renderer for **flowchart diagrams only**. It is ~1000x faster than mermaid-cli and requires no browser or Node.js.
+
+**Check if installed:**
 ```bash
-# Convert Mermaid file to SVG
+mmdr --version
+```
+
+If not found, install from: https://github.com/1jehuang/mermaid-rs-renderer
+
+**Usage (flowcharts only):**
+```bash
+# Pipe to stdout
+echo 'flowchart LR; A-->B-->C' | mmdr -e svg
+
+# File to file
+mmdr -i diagram.mmd -o output.svg -e svg
+```
+
+**For all other diagram types: mermaid-cli**
+
+**Check if installed:**
+```bash
+mmdc --version
+```
+
+If not found, install from: https://github.com/mermaid-js/mermaid-cli
+
+```bash
+# Convert to SVG
 mmdc -i input.mmd -o output.svg
 
-# Convert to PNG with dark theme and transparent background
+# Convert to PNG with dark theme
 mmdc -i input.mmd -o output.png -t dark -b transparent
 
-# Generate diagrams in markdown files (automatically finds and replaces mermaid blocks)
+# Process markdown files
 mmdc -i readme.template.md -o readme.md
 ```
-
-**Piping input from stdin:**
-```bash
-cat << EOF | mmdc --input -
-flowchart TD
-    A[Start] --> B[Process]
-    B --> C[End]
-EOF
-```
-
-**Docker usage:**
-```bash
-docker pull minlag/mermaid-cli
-docker run --rm -u $(id -u):$(id -g) -v /path/to/diagrams:/data minlag/mermaid-cli -i diagram.mmd
-```
-
-**Syntax validation with mermaid-cli:**
-If mermaid-cli is installed, you can validate Mermaid syntax using:
-```bash
-# Test syntax by piping input
-echo "flowchart TD; A-->B" | mmdc --input -
-# If no errors occur, the syntax is valid
-```
-
-*If mermaid-cli is not installed, please refer to the [official installation guide](https://github.com/mermaid-js/mermaid-cli) for setup instructions.*
 
 **Configuration:**
 ```javascript
@@ -675,16 +676,25 @@ const renderDiagram = async (element, definition) => {
 - Check for missing semicolons or brackets
 - Verify node and edge syntax
 
-**Using mermaid-cli for validation:**
-If you have mermaid-cli installed, you can validate syntax:
+**CLI Syntax Validation:**
+
+First check which tool is available, then validate accordingly:
+
 ```bash
-# Test syntax by attempting to render
-echo "flowchart TD; A-->B" | mmdc --input -
-# If successful, syntax is valid
-# If errors appear, check the console output for specific issues
+# For flowcharts (if mmdr is available)
+if command -v mmdr &> /dev/null; then
+    echo "flowchart TD; A-->B" | mmdr -e svg > /dev/null && echo "Valid" || echo "Invalid"
+fi
+
+# For all diagram types (if mmdc is available)
+if command -v mmdc &> /dev/null; then
+    echo "stateDiagram-v2; [*]-->A" | mmdc --input -
+fi
 ```
 
-For installation instructions, see the [official mermaid-cli repository](https://github.com/mermaid-js/mermaid-cli).
+If neither tool is installed:
+- mmdr: https://github.com/1jehuang/mermaid-rs-renderer (flowcharts only, faster)
+- mermaid-cli: https://github.com/mermaid-js/mermaid-cli (all diagram types)
 
 **Performance issues:**
 - Large diagrams may slow page loading
